@@ -76,7 +76,7 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source       = { :http => "https://github.com/TriplePlayPay/magtek-sdks/tree/main/ios/MagTekSDK" }
+  spec.source       = { :git => "https://github.com/TriplePlayPay/TPP-iOS-MagTekSDK.git", :tag => '0.0.1' }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
