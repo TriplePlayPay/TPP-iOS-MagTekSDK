@@ -16,8 +16,8 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "TPP-MagTekSDK"
-  spec.version      = "0.0.1"
-  spec.summary      = "cool"
+  spec.version      = "0.0.3"
+  spec.summary      = "Triple Play Pay MagTekSDK"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -26,7 +26,7 @@ Pod::Spec.new do |spec|
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   spec.description  = 'A way to integrate with MagTek hardware from Triple Play Pay'
 
-  spec.homepage     = "https://www.tripleplaypay.com/"
+  spec.homepage     = "https://github.com/TriplePlayPay/TPP-iOS-MagTekSDK"
   # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -76,7 +76,7 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source       = { :git => "https://github.com/TriplePlayPay/TPP-iOS-MagTekSDK.git", :tag => '0.0.1' }
+  spec.source       = { :git => "https://github.com/TriplePlayPay/TPP-iOS-MagTekSDK.git", :tag => '0.0.3' }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
