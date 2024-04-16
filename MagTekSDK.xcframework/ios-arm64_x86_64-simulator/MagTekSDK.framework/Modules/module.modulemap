@@ -1,0 +1,6 @@
+framework module MagTekSDK {
+  umbrella header "MagTekSDK.h"
+  export *
+
+  module * { export * }
+}
