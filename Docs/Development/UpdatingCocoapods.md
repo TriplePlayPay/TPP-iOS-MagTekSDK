@@ -9,9 +9,9 @@ git push --tags # push a new tag to the main branch
 git push # updates the main git branch with changes
 ```
 ## Cocoapods Account
-Once the git repository is updated remotely, you need to make sure to sign into your cocoapods account. You can log in OR create a new account by using the following command:
+Once the git repository is updated remotely, you need to make sure to sign into your cocoapods account. You can log in OR create a new account by using the following command. Once you create an account / log in, you likely wont need to sign in again on the same device.
 ```sh
-pod trunk register user@example.com 'Display Name' --description='Dev Laptop' 
+pod trunk register user@example.com 'Display Name' --description='Dev Laptop'
 ```
 If you are creating a new account please reach out to `parker@tripleplaypay.com` so that he may add you as an owner.
 ## Publish
