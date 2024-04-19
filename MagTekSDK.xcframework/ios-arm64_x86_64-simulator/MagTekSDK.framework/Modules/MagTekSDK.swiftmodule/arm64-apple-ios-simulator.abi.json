@@ -3666,15 +3666,22 @@
     },
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1759,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
       "kind": "StringLiteral",
-      "offset": 1766,
+      "offset": 1806,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
       "kind": "BooleanLiteral",
-      "offset": 2222,
+      "offset": 2262,
       "length": 5,
       "value": "false"
     },
