@@ -36,7 +36,6 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     private var scanning: Bool = false
     
     // internal state
-    private var connected: Bool = false
     private var displayMessage: String = ""
     private var transactionEvent: MagTekTransactionEvent = .noEvents
     private var transactionStatus: MagTekTransactionStatus = .noStatus
@@ -74,11 +73,6 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                 self.onDeviceDiscovered?(device.name, device.rssi)
             }
         }
-    }
-    
-    func onDeviceConnectionDidChange(_ deviceType: UInt, connected: Bool, instance: Any!) {
-
-        self.connected = connected
     }
     
     func onTransactionStatus(_ data: Data!) {
@@ -143,14 +137,18 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             self.lib.openDevice()
             
             let interval: Double = 0.1
+            
             var elapsed: Double = timeout
+            var connected: Bool = false
             
             Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
-                if interval <= 0.0 {
+                if elapsed <= 0.0 {
                     timer.invalidate()
+                    self.onConnection?(false)
                 }
                 
-                if self.connected {
+                if connected {
+                    timer.invalidate()
                     self.lib.clearBuffers() // clear the message buffers after connecting
 
                     self.deviceSerial = self.lib.getDeviceSerial() ?? self.deviceSerial
@@ -159,13 +157,11 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                     self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
                     
                     self.onConnection?(true)
-                    timer.invalidate()
                 }
                 
+                connected = self.lib.isDeviceConnected() && self.lib.isDeviceOpened()
                 elapsed -= interval
             })
-            
-            self.onConnection?(false)
         }
     }
     

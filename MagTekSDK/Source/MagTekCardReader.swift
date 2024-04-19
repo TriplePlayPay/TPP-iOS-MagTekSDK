@@ -41,7 +41,7 @@ public class MagTekCardReader {
     // default 10 seconds timeout
     public func connect(_ deviceName: String, _ callback: @escaping (Bool) -> ()) {
         self.reader.onConnection = callback
-        self.reader.connect(deviceName, 10)
+        self.reader.connect(deviceName, 1000)
     }
     
     public func disconnect() { self.reader.disconnect() }
