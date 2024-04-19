@@ -75,11 +75,11 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
         }
     }
     
-    func onTransactionStatus(_ data: Data!) {
-        self.transactionEvent = MagTekTransactionEvent(rawValue: data[0])!
-        self.transactionStatus = MagTekTransactionStatus(rawValue: data[2])!
-        self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
-    }
+//    func onTransactionStatus(_ data: Data!) {
+//        self.transactionEvent = MagTekTransactionEvent(rawValue: data[0])!
+//        self.transactionStatus = MagTekTransactionStatus(rawValue: data[2])!
+//        self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+//    }
     
     func onTransactionResult(_ data: Data!) {}
     
@@ -91,33 +91,33 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
         self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
     }
     
-    func onARQCReceived(_ data: Data!) {
-        print("ARQC:")
-        
-        var arqc: String = "" // format the same way magtek would
-        for byte in data {
-            arqc += String(format: "%02X", byte)
-        }
-        
-        let url = URL(string: "http://192.168.1.153/api/emv")
-        var request = URLRequest(url: url!)
-        
-        request.httpMethod = "POST"
-        // data includes non-printable characters because it's in TLV format, so we'll pass it as b64
-        request.httpBody = try! JSONSerialization.data(withJSONObject: ["payload": arqc])
-        request.setValue(self.apiKey, forHTTPHeaderField: "Authorization") // set the API key header
-        
-        // make an HTTP request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let data = data {
-                self.onTransaction?(String(data: data, encoding: .utf8)!, self.transactionEvent, self.transactionStatus)
-            } else if let error = error {
-                print(error)
-            }
-        }
-        
-        task.resume()
-    }
+//    func onARQCReceived(_ data: Data!) {
+//        print("ARQC:")
+//        
+//        var arqc: String = "" // format the same way magtek would
+//        for byte in data {
+//            arqc += String(format: "%02X", byte)
+//        }
+//        
+//        let url = URL(string: "http://192.168.1.153/api/emv")
+//        var request = URLRequest(url: url!)
+//        
+//        request.httpMethod = "POST"
+//        // data includes non-printable characters because it's in TLV format, so we'll pass it as b64
+//        request.httpBody = try! JSONSerialization.data(withJSONObject: ["payload": arqc])
+//        request.setValue(self.apiKey, forHTTPHeaderField: "Authorization") // set the API key header
+//        
+//        // make an HTTP request
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            if let data = data {
+//                self.onTransaction?(String(data: data, encoding: .utf8)!, self.transactionEvent, self.transactionStatus)
+//            } else if let error = error {
+//                print(error)
+//            }
+//        }
+//        
+//        task.resume()
+//    }
     
     // -- END CALLBACKS --
     
@@ -137,9 +137,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             self.lib.openDevice()
             
             let interval: Double = 0.1
-            
             var elapsed: Double = timeout
-            var connected: Bool = false
             
             Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
                 if elapsed <= 0.0 {
@@ -147,7 +145,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                     self.onConnection?(false)
                 }
                 
-                if connected {
+                if self.lib.isDeviceConnected() && self.lib.isDeviceOpened() {
                     timer.invalidate()
                     self.lib.clearBuffers() // clear the message buffers after connecting
 
@@ -159,7 +157,6 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                     self.onConnection?(true)
                 }
                 
-                connected = self.lib.isDeviceConnected() && self.lib.isDeviceOpened()
                 elapsed -= interval
             })
         }
