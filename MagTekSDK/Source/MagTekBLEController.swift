@@ -86,6 +86,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
         }
         self.onConnection?(connected)
+        self.onConnection = nil
     }
     
     func onTransactionStatus(_ data: Data!) {
@@ -106,18 +107,18 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     func onARQCReceived(_ data: Data!) {
         print("ARQC:")
-        print(data.base64EncodedString())
         
-        for datum in data {
-            print(String(format: "%02X", datum), terminator: "")
+        var arqc: String = "" // format the same way magtek would
+        for byte in data {
+            arqc += String(format: "%02X", byte)
         }
         
-        let url = URL(string: "http://172.20.10.2/api/emv")
+        let url = URL(string: "http://192.168.1.153/api/emv")
         var request = URLRequest(url: url!)
         
         request.httpMethod = "POST"
         // data includes non-printable characters because it's in TLV format, so we'll pass it as b64
-        request.httpBody = try! JSONSerialization.data(withJSONObject: ["payload": data.base64EncodedString()])
+        request.httpBody = try! JSONSerialization.data(withJSONObject: ["payload": arqc])
         request.setValue(self.apiKey, forHTTPHeaderField: "Authorization") // set the API key header
         
         // make an HTTP request
@@ -151,6 +152,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now() + timeout, execute: {
                 // at the end of the timeout, just return whatever the current connection status is
                 self.onConnection?(self.lib.isDeviceConnected() && self.lib.isDeviceOpened())
+                self.onConnection = nil
             })
         }
     }
