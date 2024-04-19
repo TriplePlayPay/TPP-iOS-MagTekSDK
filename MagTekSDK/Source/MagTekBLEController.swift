@@ -142,7 +142,14 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             self.lib.setAddress(device.address)
             self.lib.openDevice()
             
-            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { timer in
+            let interval: Double = 0.1
+            var elapsed: Double = timeout
+            
+            Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
+                if interval <= 0.0 {
+                    timer.invalidate()
+                }
+                
                 if self.connected {
                     self.lib.clearBuffers() // clear the message buffers after connecting
 
@@ -152,7 +159,10 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                     self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
                     
                     self.onConnection?(true)
+                    timer.invalidate()
                 }
+                
+                elapsed -= interval
             })
             
             self.onConnection?(false)
