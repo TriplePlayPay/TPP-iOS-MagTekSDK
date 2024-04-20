@@ -81,8 +81,8 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
 //        self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
 //    }
     
-    func onTransactionResult(_ data: Data!) {}
-    
+//    func onTransactionResult(_ data: Data!) {}
+//    
     func onDisplayMessageRequest(_ data: Data!) {
         self.displayMessage = ""
         for token in data {
