@@ -2,8 +2,8 @@
 triple:          'arm64-apple-darwin'
 binary-path:     '/Users/user/Library/Developer/Xcode/DerivedData/MagTekSDK-dbekatfnwyhtprdilbnshtflivin/Build/Intermediates.noindex/ArchiveIntermediates/MagTekSDK_iOS/InstallationBuildProductsLocation/Library/Frameworks/MagTekSDK.framework/MagTekSDK'
 relocations:
-  - { offsetInCU: 0x34, offset: 0x53D22, size: 0x8, addend: 0x0, symName: _MagTekSDKVersionString, symObjAddr: 0x0, symBinAddr: 0x3D5E0, symSize: 0x0 }
-  - { offsetInCU: 0x69, offset: 0x53D57, size: 0x8, addend: 0x0, symName: _MagTekSDKVersionNumber, symObjAddr: 0x30, symBinAddr: 0x3D610, symSize: 0x0 }
+  - { offsetInCU: 0x34, offset: 0x53D22, size: 0x8, addend: 0x0, symName: _MagTekSDKVersionString, symObjAddr: 0x0, symBinAddr: 0x3D5D0, symSize: 0x0 }
+  - { offsetInCU: 0x69, offset: 0x53D57, size: 0x8, addend: 0x0, symName: _MagTekSDKVersionNumber, symObjAddr: 0x30, symBinAddr: 0x3D600, symSize: 0x0 }
   - { offsetInCU: 0x3E9, offset: 0x54156, size: 0x8, addend: 0x0, symName: '_$sSS9MagTekSDK0aB16TransactionEventOAA0abD6StatusOIeggnn_SgWOe', symObjAddr: 0x860, symBinAddr: 0x8860, symSize: 0x10 }
   - { offsetInCU: 0x3FD, offset: 0x5416A, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB10CardReaderCMa', symObjAddr: 0x870, symBinAddr: 0x8870, symSize: 0x20 }
   - { offsetInCU: 0x411, offset: 0x5417E, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledName, symObjAddr: 0x91C, symBinAddr: 0x891C, symSize: 0x40 }
@@ -66,38 +66,38 @@ relocations:
   - { offsetInCU: 0x39A, offset: 0x576F0, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC21bleReaderStateUpdatedyys5Int32VFTo', symObjAddr: 0x898, symBinAddr: 0xAC9C, symSize: 0x18 }
   - { offsetInCU: 0x3E3, offset: 0x57739, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC12onDeviceList_14connectionType06deviceG0yypSg_SuSayypGSgtFTo', symObjAddr: 0x9F0, symBinAddr: 0xADF4, symSize: 0xCC }
   - { offsetInCU: 0x4B9, offset: 0x5780F, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC23onDisplayMessageRequestyy10Foundation4DataVSgFTo', symObjAddr: 0xF50, symBinAddr: 0xB354, symSize: 0x7C }
-  - { offsetInCU: 0x588, offset: 0x578DE, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerCACycfcTo', symObjAddr: 0x1C0C, symBinAddr: 0xC010, symSize: 0x2C }
+  - { offsetInCU: 0x588, offset: 0x578DE, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerCACycfcTo', symObjAddr: 0x1C04, symBinAddr: 0xC008, symSize: 0x2C }
   - { offsetInCU: 0x859, offset: 0x57BAF, size: 0x8, addend: 0x0, symName: '_$sIeg_IeyB_TR', symObjAddr: 0xF24, symBinAddr: 0xB328, symSize: 0x2C }
-  - { offsetInCU: 0x88C, offset: 0x57BE2, size: 0x8, addend: 0x0, symName: '_$sSo7NSTimerCIeghg_ABIeyBhy_TR', symObjAddr: 0x1930, symBinAddr: 0xBD34, symSize: 0x4C }
-  - { offsetInCU: 0x9E6, offset: 0x57D3C, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerCfETo', symObjAddr: 0x1C68, symBinAddr: 0xC06C, symSize: 0xC4 }
-  - { offsetInCU: 0xA15, offset: 0x57D6B, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerCMa', symObjAddr: 0x1D2C, symBinAddr: 0xC130, symSize: 0x20 }
-  - { offsetInCU: 0xA29, offset: 0x57D7F, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwCP', symObjAddr: 0x1D4C, symBinAddr: 0xC150, symSize: 0x30 }
-  - { offsetInCU: 0xA3D, offset: 0x57D93, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwxx', symObjAddr: 0x1D7C, symBinAddr: 0xC180, symSize: 0x28 }
-  - { offsetInCU: 0xA51, offset: 0x57DA7, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwcp', symObjAddr: 0x1DA4, symBinAddr: 0xC1A8, symSize: 0x44 }
-  - { offsetInCU: 0xA65, offset: 0x57DBB, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwca', symObjAddr: 0x1DE8, symBinAddr: 0xC1EC, symSize: 0x74 }
-  - { offsetInCU: 0xA79, offset: 0x57DCF, size: 0x8, addend: 0x0, symName: ___swift_memcpy40_8, symObjAddr: 0x1E5C, symBinAddr: 0xC260, symSize: 0x14 }
-  - { offsetInCU: 0xA8D, offset: 0x57DE3, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwta', symObjAddr: 0x1E70, symBinAddr: 0xC274, symSize: 0x4C }
-  - { offsetInCU: 0xAA1, offset: 0x57DF7, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwet', symObjAddr: 0x1EBC, symBinAddr: 0xC2C0, symSize: 0x48 }
-  - { offsetInCU: 0xAB5, offset: 0x57E0B, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwst', symObjAddr: 0x1F04, symBinAddr: 0xC308, symSize: 0x48 }
-  - { offsetInCU: 0xAC9, offset: 0x57E1F, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVMa', symObjAddr: 0x1F4C, symBinAddr: 0xC350, symSize: 0x10 }
-  - { offsetInCU: 0xADD, offset: 0x57E33, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOWOy', symObjAddr: 0x1F5C, symBinAddr: 0xC360, symSize: 0x44 }
-  - { offsetInCU: 0xAF1, offset: 0x57E47, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC23onDisplayMessageRequestyy10Foundation4DataVSgFyyScMYccfU_TA', symObjAddr: 0x1FC4, symBinAddr: 0xC3C8, symSize: 0x8 }
-  - { offsetInCU: 0xB05, offset: 0x57E5B, size: 0x8, addend: 0x0, symName: _block_copy_helper, symObjAddr: 0x1FCC, symBinAddr: 0xC3D0, symSize: 0x10 }
-  - { offsetInCU: 0xB19, offset: 0x57E6F, size: 0x8, addend: 0x0, symName: _block_destroy_helper, symObjAddr: 0x1FDC, symBinAddr: 0xC3E0, symSize: 0x8 }
-  - { offsetInCU: 0xB2D, offset: 0x57E83, size: 0x8, addend: 0x0, symName: '_$s8Dispatch0A13WorkItemFlagsVACs10SetAlgebraAAWl', symObjAddr: 0x1FE4, symBinAddr: 0xC3E8, symSize: 0x48 }
-  - { offsetInCU: 0xB41, offset: 0x57E97, size: 0x8, addend: 0x0, symName: '_$sSay8Dispatch0A13WorkItemFlagsVGSayxGSTsWl', symObjAddr: 0x206C, symBinAddr: 0xC430, symSize: 0x4C }
-  - { offsetInCU: 0xB55, offset: 0x57EAB, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledNameAbstract, symObjAddr: 0x20B8, symBinAddr: 0xC47C, symSize: 0x44 }
-  - { offsetInCU: 0xB69, offset: 0x57EBF, size: 0x8, addend: 0x0, symName: '_$sSS9MagTekSDK0aB16TransactionEventOAA0abD6StatusOIeggnn_SgWOy', symObjAddr: 0x20FC, symBinAddr: 0xC4C0, symSize: 0x10 }
-  - { offsetInCU: 0xB7D, offset: 0x57ED3, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataVSgWOe', symObjAddr: 0x211C, symBinAddr: 0xC4D0, symSize: 0x14 }
-  - { offsetInCU: 0xB91, offset: 0x57EE7, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOWOe', symObjAddr: 0x2130, symBinAddr: 0xC4E4, symSize: 0x44 }
-  - { offsetInCU: 0xBB0, offset: 0x57F06, size: 0x8, addend: 0x0, symName: '_$ss29getContiguousArrayStorageType3fors01_bcD0CyxGmxm_tlFSo12MTDeviceInfoC_Tgm5', symObjAddr: 0x2174, symBinAddr: 0xC528, symSize: 0x64 }
-  - { offsetInCU: 0xCA9, offset: 0x57FFF, size: 0x8, addend: 0x0, symName: '_$ss22_ContiguousArrayBufferV19_uninitializedCount15minimumCapacityAByxGSi_SitcfCs5UInt8V_Tgm5', symObjAddr: 0x22C0, symBinAddr: 0xC674, symSize: 0x64 }
-  - { offsetInCU: 0x1046, offset: 0x5839C, size: 0x8, addend: 0x0, symName: '_$sSS11withCStringyxxSPys4Int8VGKXEKlFSb_Tg5024$sSdySdSgxcSyRzlufcSbSpyf6GXEfU_j5SPys4C7VGXEfU_SpySdGTf1cn_n', symObjAddr: 0x2D3C, symBinAddr: 0xD0F0, symSize: 0x10C }
-  - { offsetInCU: 0x1369, offset: 0x586BF, size: 0x8, addend: 0x0, symName: '_$sypSgWOh', symObjAddr: 0x3310, symBinAddr: 0xD6C4, symSize: 0x40 }
-  - { offsetInCU: 0x137D, offset: 0x586D3, size: 0x8, addend: 0x0, symName: '_$sypWOc', symObjAddr: 0x3388, symBinAddr: 0xD73C, symSize: 0x3C }
-  - { offsetInCU: 0x1391, offset: 0x586E7, size: 0x8, addend: 0x0, symName: '_$sSdySdSgxcSyRzlufcSbSpySdGXEfU_SbSPys4Int8VGXEfU_TA', symObjAddr: 0x33C4, symBinAddr: 0xD778, symSize: 0x6C }
-  - { offsetInCU: 0x13B2, offset: 0x58708, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtFyyScMYccfU_TA', symObjAddr: 0x346C, symBinAddr: 0xD820, symSize: 0xC }
-  - { offsetInCU: 0x13C6, offset: 0x5871C, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtFyyScMYccfU_ySo7NSTimerCYbcfU_TA', symObjAddr: 0x34A4, symBinAddr: 0xD858, symSize: 0xC }
+  - { offsetInCU: 0x88C, offset: 0x57BE2, size: 0x8, addend: 0x0, symName: '_$sSo7NSTimerCIeghg_ABIeyBhy_TR', symObjAddr: 0x1928, symBinAddr: 0xBD2C, symSize: 0x4C }
+  - { offsetInCU: 0x9E6, offset: 0x57D3C, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerCfETo', symObjAddr: 0x1C60, symBinAddr: 0xC064, symSize: 0xC4 }
+  - { offsetInCU: 0xA15, offset: 0x57D6B, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerCMa', symObjAddr: 0x1D24, symBinAddr: 0xC128, symSize: 0x20 }
+  - { offsetInCU: 0xA29, offset: 0x57D7F, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwCP', symObjAddr: 0x1D44, symBinAddr: 0xC148, symSize: 0x30 }
+  - { offsetInCU: 0xA3D, offset: 0x57D93, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwxx', symObjAddr: 0x1D74, symBinAddr: 0xC178, symSize: 0x28 }
+  - { offsetInCU: 0xA51, offset: 0x57DA7, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwcp', symObjAddr: 0x1D9C, symBinAddr: 0xC1A0, symSize: 0x44 }
+  - { offsetInCU: 0xA65, offset: 0x57DBB, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwca', symObjAddr: 0x1DE0, symBinAddr: 0xC1E4, symSize: 0x74 }
+  - { offsetInCU: 0xA79, offset: 0x57DCF, size: 0x8, addend: 0x0, symName: ___swift_memcpy40_8, symObjAddr: 0x1E54, symBinAddr: 0xC258, symSize: 0x14 }
+  - { offsetInCU: 0xA8D, offset: 0x57DE3, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwta', symObjAddr: 0x1E68, symBinAddr: 0xC26C, symSize: 0x4C }
+  - { offsetInCU: 0xAA1, offset: 0x57DF7, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwet', symObjAddr: 0x1EB4, symBinAddr: 0xC2B8, symSize: 0x48 }
+  - { offsetInCU: 0xAB5, offset: 0x57E0B, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVwst', symObjAddr: 0x1EFC, symBinAddr: 0xC300, symSize: 0x48 }
+  - { offsetInCU: 0xAC9, offset: 0x57E1F, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BluetoothInfoVMa', symObjAddr: 0x1F44, symBinAddr: 0xC348, symSize: 0x10 }
+  - { offsetInCU: 0xADD, offset: 0x57E33, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOWOy', symObjAddr: 0x1F54, symBinAddr: 0xC358, symSize: 0x44 }
+  - { offsetInCU: 0xAF1, offset: 0x57E47, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC23onDisplayMessageRequestyy10Foundation4DataVSgFyyScMYccfU_TA', symObjAddr: 0x1FBC, symBinAddr: 0xC3C0, symSize: 0x8 }
+  - { offsetInCU: 0xB05, offset: 0x57E5B, size: 0x8, addend: 0x0, symName: _block_copy_helper, symObjAddr: 0x1FC4, symBinAddr: 0xC3C8, symSize: 0x10 }
+  - { offsetInCU: 0xB19, offset: 0x57E6F, size: 0x8, addend: 0x0, symName: _block_destroy_helper, symObjAddr: 0x1FD4, symBinAddr: 0xC3D8, symSize: 0x8 }
+  - { offsetInCU: 0xB2D, offset: 0x57E83, size: 0x8, addend: 0x0, symName: '_$s8Dispatch0A13WorkItemFlagsVACs10SetAlgebraAAWl', symObjAddr: 0x1FDC, symBinAddr: 0xC3E0, symSize: 0x48 }
+  - { offsetInCU: 0xB41, offset: 0x57E97, size: 0x8, addend: 0x0, symName: '_$sSay8Dispatch0A13WorkItemFlagsVGSayxGSTsWl', symObjAddr: 0x2064, symBinAddr: 0xC428, symSize: 0x4C }
+  - { offsetInCU: 0xB55, offset: 0x57EAB, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledNameAbstract, symObjAddr: 0x20B0, symBinAddr: 0xC474, symSize: 0x44 }
+  - { offsetInCU: 0xB69, offset: 0x57EBF, size: 0x8, addend: 0x0, symName: '_$sSS9MagTekSDK0aB16TransactionEventOAA0abD6StatusOIeggnn_SgWOy', symObjAddr: 0x20F4, symBinAddr: 0xC4B8, symSize: 0x10 }
+  - { offsetInCU: 0xB7D, offset: 0x57ED3, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataVSgWOe', symObjAddr: 0x2114, symBinAddr: 0xC4C8, symSize: 0x14 }
+  - { offsetInCU: 0xB91, offset: 0x57EE7, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOWOe', symObjAddr: 0x2128, symBinAddr: 0xC4DC, symSize: 0x44 }
+  - { offsetInCU: 0xBB0, offset: 0x57F06, size: 0x8, addend: 0x0, symName: '_$ss29getContiguousArrayStorageType3fors01_bcD0CyxGmxm_tlFSo12MTDeviceInfoC_Tgm5', symObjAddr: 0x216C, symBinAddr: 0xC520, symSize: 0x64 }
+  - { offsetInCU: 0xCA9, offset: 0x57FFF, size: 0x8, addend: 0x0, symName: '_$ss22_ContiguousArrayBufferV19_uninitializedCount15minimumCapacityAByxGSi_SitcfCs5UInt8V_Tgm5', symObjAddr: 0x22B8, symBinAddr: 0xC66C, symSize: 0x64 }
+  - { offsetInCU: 0x1046, offset: 0x5839C, size: 0x8, addend: 0x0, symName: '_$sSS11withCStringyxxSPys4Int8VGKXEKlFSb_Tg5024$sSdySdSgxcSyRzlufcSbSpyf6GXEfU_j5SPys4C7VGXEfU_SpySdGTf1cn_n', symObjAddr: 0x2D34, symBinAddr: 0xD0E8, symSize: 0x10C }
+  - { offsetInCU: 0x1369, offset: 0x586BF, size: 0x8, addend: 0x0, symName: '_$sypSgWOh', symObjAddr: 0x3308, symBinAddr: 0xD6BC, symSize: 0x40 }
+  - { offsetInCU: 0x137D, offset: 0x586D3, size: 0x8, addend: 0x0, symName: '_$sypWOc', symObjAddr: 0x3380, symBinAddr: 0xD734, symSize: 0x3C }
+  - { offsetInCU: 0x1391, offset: 0x586E7, size: 0x8, addend: 0x0, symName: '_$sSdySdSgxcSyRzlufcSbSpySdGXEfU_SbSPys4Int8VGXEfU_TA', symObjAddr: 0x33BC, symBinAddr: 0xD770, symSize: 0x6C }
+  - { offsetInCU: 0x13B2, offset: 0x58708, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtFyyScMYccfU_TA', symObjAddr: 0x344C, symBinAddr: 0xD800, symSize: 0xC }
+  - { offsetInCU: 0x13C6, offset: 0x5871C, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtFyyScMYccfU_ySo7NSTimerCYbcfU_TA', symObjAddr: 0x3494, symBinAddr: 0xD848, symSize: 0xC }
   - { offsetInCU: 0x1400, offset: 0x58756, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB16TransactionEventOSQAASQ2eeoiySbx_xtFZTW', symObjAddr: 0x20, symBinAddr: 0xA424, symSize: 0x14 }
   - { offsetInCU: 0x14B0, offset: 0x58806, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB16TransactionEventOSHAASH9hashValueSivgTW', symObjAddr: 0x34, symBinAddr: 0xA438, symSize: 0x44 }
   - { offsetInCU: 0x153F, offset: 0x58895, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB16TransactionEventOSHAASH4hash4intoys6HasherVz_tFTW', symObjAddr: 0x78, symBinAddr: 0xA47C, symSize: 0x28 }
@@ -114,18 +114,18 @@ relocations:
   - { offsetInCU: 0x1FB2, offset: 0x59308, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC_6apiKeyACSi_SStcfc', symObjAddr: 0x634, symBinAddr: 0xAA38, symSize: 0x264 }
   - { offsetInCU: 0x225A, offset: 0x595B0, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC23onDisplayMessageRequestyy10Foundation4DataVSgF', symObjAddr: 0xABC, symBinAddr: 0xAEC0, symSize: 0x388 }
   - { offsetInCU: 0x23D5, offset: 0x5972B, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC23onDisplayMessageRequestyy10Foundation4DataVSgFyyScMYccfU_', symObjAddr: 0xE54, symBinAddr: 0xB258, symSize: 0xD0 }
-  - { offsetInCU: 0x24E5, offset: 0x5983B, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtF', symObjAddr: 0xFCC, symBinAddr: 0xB3D0, symSize: 0x394 }
-  - { offsetInCU: 0x2615, offset: 0x5996B, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtFyyScMYccfU_', symObjAddr: 0x1360, symBinAddr: 0xB764, symSize: 0x108 }
-  - { offsetInCU: 0x2650, offset: 0x599A6, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtFyyScMYccfU_ySo7NSTimerCYbcfU_', symObjAddr: 0x1468, symBinAddr: 0xB86C, symSize: 0x4C8 }
-  - { offsetInCU: 0x297A, offset: 0x59CD0, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC16startTransaction_8cashbackySS_SStF', symObjAddr: 0x197C, symBinAddr: 0xBD80, symSize: 0x290 }
-  - { offsetInCU: 0x2D52, offset: 0x5A0A8, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerCfD', symObjAddr: 0x1C38, symBinAddr: 0xC03C, symSize: 0x30 }
-  - { offsetInCU: 0x2DB3, offset: 0x5A109, size: 0x8, addend: 0x0, symName: '_$ss12_ArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFs5UInt8V_Tg5', symObjAddr: 0x21D8, symBinAddr: 0xC58C, symSize: 0xE8 }
-  - { offsetInCU: 0x2ECC, offset: 0x5A222, size: 0x8, addend: 0x0, symName: '_$ss12_ArrayBufferV19_getElementSlowPathyyXlSiFSo12MTDeviceInfoC_Tg5', symObjAddr: 0x2324, symBinAddr: 0xC6D8, symSize: 0x1F4 }
-  - { offsetInCU: 0x2F36, offset: 0x5A28C, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSS_Tg5', symObjAddr: 0x2518, symBinAddr: 0xC8CC, symSize: 0x64 }
-  - { offsetInCU: 0x2F7B, offset: 0x5A2D1, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFSS_Tg5', symObjAddr: 0x257C, symBinAddr: 0xC930, symSize: 0xE0 }
-  - { offsetInCU: 0x300B, offset: 0x5A361, size: 0x8, addend: 0x0, symName: '_$ss17_NativeDictionaryV4copyyyFSS_9MagTekSDK0dE13BluetoothInfoVTg5', symObjAddr: 0x265C, symBinAddr: 0xCA10, symSize: 0x1F0 }
-  - { offsetInCU: 0x30C0, offset: 0x5A416, size: 0x8, addend: 0x0, symName: '_$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSS_9MagTekSDK0kL13BluetoothInfoVTg5', symObjAddr: 0x284C, symBinAddr: 0xCC00, symSize: 0x384 }
-  - { offsetInCU: 0x319C, offset: 0x5A4F2, size: 0x8, addend: 0x0, symName: '_$ss15ContiguousArrayV16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtFSo12MTDeviceInfoC_Tg5', symObjAddr: 0x2BD0, symBinAddr: 0xCF84, symSize: 0x1C }
-  - { offsetInCU: 0x31DA, offset: 0x5A530, size: 0x8, addend: 0x0, symName: '_$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFSo12MTDeviceInfoC_Tg5', symObjAddr: 0x2BEC, symBinAddr: 0xCFA0, symSize: 0x150 }
-  - { offsetInCU: 0x337D, offset: 0x5A6D3, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC12onDeviceList_14connectionType06deviceG0yypSg_SuSayypGSgtFTf4ndnn_n', symObjAddr: 0x2E48, symBinAddr: 0xD1FC, symSize: 0x4C8 }
+  - { offsetInCU: 0x24E5, offset: 0x5983B, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtF', symObjAddr: 0xFCC, symBinAddr: 0xB3D0, symSize: 0x368 }
+  - { offsetInCU: 0x25FE, offset: 0x59954, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtFyyScMYccfU_', symObjAddr: 0x1334, symBinAddr: 0xB738, symSize: 0x12C }
+  - { offsetInCU: 0x2660, offset: 0x599B6, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC7connectyySS_SdtFyyScMYccfU_ySo7NSTimerCYbcfU_', symObjAddr: 0x1460, symBinAddr: 0xB864, symSize: 0x4C8 }
+  - { offsetInCU: 0x298A, offset: 0x59CE0, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC16startTransaction_8cashbackySS_SStF', symObjAddr: 0x1974, symBinAddr: 0xBD78, symSize: 0x290 }
+  - { offsetInCU: 0x2D62, offset: 0x5A0B8, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerCfD', symObjAddr: 0x1C30, symBinAddr: 0xC034, symSize: 0x30 }
+  - { offsetInCU: 0x2DC3, offset: 0x5A119, size: 0x8, addend: 0x0, symName: '_$ss12_ArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFs5UInt8V_Tg5', symObjAddr: 0x21D0, symBinAddr: 0xC584, symSize: 0xE8 }
+  - { offsetInCU: 0x2EDC, offset: 0x5A232, size: 0x8, addend: 0x0, symName: '_$ss12_ArrayBufferV19_getElementSlowPathyyXlSiFSo12MTDeviceInfoC_Tg5', symObjAddr: 0x231C, symBinAddr: 0xC6D0, symSize: 0x1F4 }
+  - { offsetInCU: 0x2F46, offset: 0x5A29C, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSS_Tg5', symObjAddr: 0x2510, symBinAddr: 0xC8C4, symSize: 0x64 }
+  - { offsetInCU: 0x2F8B, offset: 0x5A2E1, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFSS_Tg5', symObjAddr: 0x2574, symBinAddr: 0xC928, symSize: 0xE0 }
+  - { offsetInCU: 0x301B, offset: 0x5A371, size: 0x8, addend: 0x0, symName: '_$ss17_NativeDictionaryV4copyyyFSS_9MagTekSDK0dE13BluetoothInfoVTg5', symObjAddr: 0x2654, symBinAddr: 0xCA08, symSize: 0x1F0 }
+  - { offsetInCU: 0x30D0, offset: 0x5A426, size: 0x8, addend: 0x0, symName: '_$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtFSS_9MagTekSDK0kL13BluetoothInfoVTg5', symObjAddr: 0x2844, symBinAddr: 0xCBF8, symSize: 0x384 }
+  - { offsetInCU: 0x31AC, offset: 0x5A502, size: 0x8, addend: 0x0, symName: '_$ss15ContiguousArrayV16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtFSo12MTDeviceInfoC_Tg5', symObjAddr: 0x2BC8, symBinAddr: 0xCF7C, symSize: 0x1C }
+  - { offsetInCU: 0x31EA, offset: 0x5A540, size: 0x8, addend: 0x0, symName: '_$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFSo12MTDeviceInfoC_Tg5', symObjAddr: 0x2BE4, symBinAddr: 0xCF98, symSize: 0x150 }
+  - { offsetInCU: 0x338D, offset: 0x5A6E3, size: 0x8, addend: 0x0, symName: '_$s9MagTekSDK0aB13BLEControllerC12onDeviceList_14connectionType06deviceG0yypSg_SuSayypGSgtFTf4ndnn_n', symObjAddr: 0x2E40, symBinAddr: 0xD1F4, symSize: 0x4C8 }
 ...
