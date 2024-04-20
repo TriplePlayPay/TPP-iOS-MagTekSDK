@@ -138,39 +138,35 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     public func connect(_ deviceName: String, _ timeout: TimeInterval) {
         if let device = self.devices[deviceName] {
+            print("starting connect from SDK")
             self.lib.setAddress(device.address)
             self.lib.openDevice()
             
             let interval: Double = 0.1
             var elapsed: Double = timeout
             
-            Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
-                print("timer called")
-                
-                if elapsed <= 0.0 {
-                    print("timer ended unsuccessfully")
-                    timer.invalidate()
-                    DispatchQueue.main.async {
+            DispatchQueue.main.async(execute: {
+                Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
+                    print("timer called")
+                    if elapsed <= 0.0 {
+                        print("timer ended unsuccessfully")
+                        timer.invalidate()
                         self.onConnection?(false)
-                    }
-                } else if self.lib.isDeviceConnected() && self.lib.isDeviceOpened() {
-                    print("timer ended successfully")
-                    timer.invalidate()
-                    self.lib.clearBuffers() // clear the message buffers after connecting
-
-                    self.deviceSerial = self.lib.getDeviceSerial() ?? self.deviceSerial
-                    self.lib.sendCommandSync(MagTekCommand.setMSR.rawValue) // put device into MSR mode
-                    self.lib.sendCommandSync(MagTekCommand.setBLE.rawValue) // set response mode to BLE, then set date + time
-                    self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
-                    
-                    DispatchQueue.main.async {
+                    } else if self.lib.isDeviceConnected() && self.lib.isDeviceOpened() {
+                        print("timer ended successfully")
+                        timer.invalidate()
+                        self.lib.clearBuffers() // clear the message buffers after connecting
+                        self.deviceSerial = self.lib.getDeviceSerial() ?? self.deviceSerial
+                        self.lib.sendCommandSync(MagTekCommand.setMSR.rawValue) // put device into MSR mode
+                        self.lib.sendCommandSync(MagTekCommand.setBLE.rawValue) // set response mode to BLE, then set date + time
+                        self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
                         self.onConnection?(true)
                     }
-                }
-                
-                elapsed -= interval
-                print("elapsed: \(elapsed)")
+                    elapsed -= interval
+                    print("elapsed: \(elapsed)")
+                })
             })
+            
         }
     }
     
@@ -203,6 +199,11 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             cashBack: &cashbackBytes,
             currencyCode: &currencyCode,
             reportingOption: 2) // verbose reporting
+    }
+    
+    // public getters
+    public func isConnected() -> Bool {
+        return self.lib.isDeviceOpened() && self.lib.isDeviceConnected()
     }
     
     // public setters
