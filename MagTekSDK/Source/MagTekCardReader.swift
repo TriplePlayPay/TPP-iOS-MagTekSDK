@@ -44,7 +44,10 @@ public class MagTekCardReader {
         self.reader.connect(deviceName, 1000)
     }
     
-    public func disconnect() { self.reader.disconnect() }
+    public func disconnect() {
+        self.reader.disconnect()
+        self.reader.onConnection = nil
+    }
     
     public func startTransaction(_ amount: String, _ callback: @escaping ((String, MagTekTransactionEvent, MagTekTransactionStatus) -> ())) {
         self.reader.onTransaction = callback
@@ -55,5 +58,6 @@ public class MagTekCardReader {
     
     public func cancelTransaction() {
         self.reader.cancelTransaction()
+        self.reader.onTransaction = nil
     }
 }

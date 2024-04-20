@@ -123,6 +123,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     // public utility functions
     public func startDeviceDiscovery() {
+        print("NEW CODE")
         self.devices = [:] // clear devices before scanning
         if let state = self.bluetoothState {
             if (state == 0 || state == 3) { // 0 = Ok, 3 = Disconnected (which is also Ok...)
