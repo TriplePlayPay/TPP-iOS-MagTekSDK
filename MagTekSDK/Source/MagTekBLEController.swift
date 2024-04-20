@@ -51,6 +51,8 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     private let lib: MTSCRA = MTSCRA()
     private let apiKey: String
     public init(_ deviceType: Int, apiKey: String) {
+        print("version - 0.0.15")
+
         self.apiKey = apiKey
 
         super.init()
@@ -88,7 +90,10 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
         for token in data {
             self.displayMessage += String(UnicodeScalar(token))
         }
-        self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+        
+        DispatchQueue.main.async {
+            self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+        }
     }
     
 //    func onARQCReceived(_ data: Data!) {
@@ -123,7 +128,6 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     // public utility functions
     public func startDeviceDiscovery() {
-        print("NEW CODE")
         self.devices = [:] // clear devices before scanning
         if let state = self.bluetoothState {
             if (state == 0 || state == 3) { // 0 = Ok, 3 = Disconnected (which is also Ok...)
@@ -146,7 +150,9 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                 if elapsed <= 0.0 {
                     print("timer ended unsuccessfully")
                     timer.invalidate()
-                    self.onConnection?(false)
+                    DispatchQueue.main.async {
+                        self.onConnection?(false)
+                    }
                 } else if self.lib.isDeviceConnected() && self.lib.isDeviceOpened() {
                     print("timer ended successfully")
                     timer.invalidate()
@@ -157,7 +163,9 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                     self.lib.sendCommandSync(MagTekCommand.setBLE.rawValue) // set response mode to BLE, then set date + time
                     self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
                     
-                    self.onConnection?(true)
+                    DispatchQueue.main.async {
+                        self.onConnection?(true)
+                    }
                 }
                 
                 elapsed -= interval
