@@ -142,10 +142,10 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             self.lib.setAddress(device.address)
             self.lib.openDevice()
             
-            let interval: Double = 0.1
+            let interval: TimeInterval = 0.1
             
             DispatchQueue.main.async(execute: {
-                var elapsed: Double = timeout
+                var elapsed: Double = 1000000.0
                 Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
                     print("timer called")
                     if elapsed <= 0.0 {
