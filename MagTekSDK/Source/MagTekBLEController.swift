@@ -141,12 +141,14 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             var elapsed: Double = timeout
             
             Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
+                print("timer called")
+                
                 if elapsed <= 0.0 {
+                    print("timer ended unsuccessfully")
                     timer.invalidate()
                     self.onConnection?(false)
-                }
-                
-                if self.lib.isDeviceConnected() && self.lib.isDeviceOpened() {
+                } else if self.lib.isDeviceConnected() && self.lib.isDeviceOpened() {
+                    print("timer ended successfully")
                     timer.invalidate()
                     self.lib.clearBuffers() // clear the message buffers after connecting
 
@@ -159,6 +161,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                 }
                 
                 elapsed -= interval
+                print("elapsed: \(elapsed)")
             })
         }
     }
