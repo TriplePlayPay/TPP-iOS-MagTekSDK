@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
   spec.author             = { "Parker Brooks" => "parker@tripleplaypay.com" }
   spec.platform     = :ios, "15.0"
   spec.ios.deployment_target = "15.0"
-  spec.source       = { :git => "https://github.com/TriplePlayPay/TPP-iOS-MagTekSDK.git", :tag => s.version.to_s }
+  spec.source       = { :git => "https://github.com/TriplePlayPay/TPP-iOS-MagTekSDK.git", :tag => "0.0.20" }
   spec.swift_version = "5.0"
   spec.vendored_frameworks = "MagTekSDK.xcframework"
 end
