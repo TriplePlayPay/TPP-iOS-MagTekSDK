@@ -77,23 +77,15 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
         }
     }
     
-//    func onTransactionStatus(_ data: Data!) {
-//        self.transactionEvent = MagTekTransactionEvent(rawValue: data[0])!
-//        self.transactionStatus = MagTekTransactionStatus(rawValue: data[2])!
-//        self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
-//    }
+    func onTransactionStatus(_ data: Data!) {
+        self.transactionEvent = MagTekTransactionEvent(rawValue: data[0])!
+        self.transactionStatus = MagTekTransactionStatus(rawValue: data[2])!
+        self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+    }
     
-//    func onTransactionResult(_ data: Data!) {}
-//    
     func onDisplayMessageRequest(_ data: Data!) {
-        self.displayMessage = ""
-        for token in data {
-            self.displayMessage += String(UnicodeScalar(token))
-        }
-        
-        DispatchQueue.main.async {
-            self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
-        }
+        self.displayMessage = String(data: data, encoding: .utf8) ?? "COULD NOT PARSE DISPLAY MESSAGE"
+        self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
     }
     
 //    func onARQCReceived(_ data: Data!) {
