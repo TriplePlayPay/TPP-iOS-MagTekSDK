@@ -3,10 +3,10 @@ First, build the most recent xcframework by running `sh ./build.sh` in the root 
 - NOTE: make sure to update the podspec file with the proper tag version. You need to change the tag in `spec.source` as well.
 ```sh
 git commit -am 'updated build' # commit all changes
+git push # updates the main git branch with changes (do this before tagging)
 # make sure to add a new tag before releasing to cocoapods.org
 git tag -a '<version>' # version must be x.x.x
 git push --tags # push a new tag to the main branch
-git push # updates the main git branch with changes
 ```
 ## Cocoapods Account
 Once the git repository is updated remotely, you need to make sure to sign into your cocoapods account. You can log in OR create a new account by using the following command. Once you create an account / log in, you likely wont need to sign in again on the same device.
