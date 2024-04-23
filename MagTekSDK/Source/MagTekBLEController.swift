@@ -51,7 +51,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     private let lib: MTSCRA = MTSCRA()
     private let apiKey: String
     public init(_ deviceType: Int, apiKey: String) {
-        print("version - 0.0.15")
+        print("version - 0.0.20")
 
         self.apiKey = apiKey
 
@@ -130,14 +130,13 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     public func connect(_ deviceName: String, _ timeout: TimeInterval) {
         if let device = self.devices[deviceName] {
-            print("starting connect from SDK")
             self.lib.setAddress(device.address)
             self.lib.openDevice()
             
-            let interval: TimeInterval = 0.1
+            let interval: TimeInterval = 0.01
             
-            DispatchQueue.main.async(execute: {
-                var elapsed: Double = 1000000.0
+            DispatchQueue.main.async {
+                var elapsed: TimeInterval = timeout
                 Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
                     print("timer called")
                     if elapsed <= 0.0 {
@@ -157,8 +156,10 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                     elapsed -= interval
                     print("elapsed: \(elapsed)")
                 })
-            })
-            
+            }
+        } else if self.debug {
+            print("ERROR in connect:")
+            print("- could not find a device with name \(deviceName)")
         }
     }
     
