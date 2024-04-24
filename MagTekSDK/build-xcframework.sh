@@ -1,6 +1,4 @@
 #!/bin/sh
-# this is a fucking mess on both Apple and MagTek's part
-# enjoy...
 
 if [ $# -ge 1 ] && ([ "$1" != "clean" ] && [ "$1" != "sign" ]); then
     echo "not a supported sub-command: '$1'"
