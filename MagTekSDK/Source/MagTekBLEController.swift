@@ -51,7 +51,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     private let lib: MTSCRA = MTSCRA()
     private let apiKey: String
     public init(_ deviceType: Int, apiKey: String) {
-        print("version - 0.0.20")
+        print("version - 0.0.21")
 
         self.apiKey = apiKey
 
@@ -154,7 +154,6 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                         self.onConnection?(true)
                     }
                     elapsed -= interval
-                    print("elapsed: \(elapsed)")
                 })
             }
         } else if self.debug {
