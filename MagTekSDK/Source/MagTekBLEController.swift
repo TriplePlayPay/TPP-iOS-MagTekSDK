@@ -50,10 +50,12 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     private let lib: MTSCRA = MTSCRA()
     private let apiKey: String
-    public init(_ deviceType: Int, apiKey: String) {
-        print("version - 0.0.21")
+    private let apiUrl: String
+    public init(_ deviceType: Int, apiKey: String, apiUrl: String) {
+        print("version - 0.0.22")
 
         self.apiKey = apiKey
+        self.apiUrl = apiUrl
 
         super.init()
         self.lib.setDeviceType(UInt32(deviceType))
@@ -78,49 +80,83 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     }
     
     func onTransactionStatus(_ data: Data!) {
-        self.transactionEvent = MagTekTransactionEvent(rawValue: data[0])!
-        self.transactionStatus = MagTekTransactionStatus(rawValue: data[2])!
-        self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+        DispatchQueue.main.async {
+            self.transactionEvent = MagTekTransactionEvent(rawValue: data[0])!
+            self.transactionStatus = MagTekTransactionStatus(rawValue: data[2])!
+            self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+        }
     }
     
     func onDisplayMessageRequest(_ data: Data!) {
-        self.displayMessage = String(data: data, encoding: .utf8) ?? "COULD NOT PARSE DISPLAY MESSAGE"
-        self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+        DispatchQueue.main.async {
+            self.displayMessage = String(data: data, encoding: .utf8) ?? "COULD NOT PARSE DISPLAY MESSAGE"
+            self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+        }
     }
     
-//    func onARQCReceived(_ data: Data!) {
-//        print("ARQC:")
-//        
-//        var arqc: String = "" // format the same way magtek would
-//        for byte in data {
-//            arqc += String(format: "%02X", byte)
-//        }
-//        
-//        let url = URL(string: "http://192.168.1.153/api/emv")
-//        var request = URLRequest(url: url!)
-//        
-//        request.httpMethod = "POST"
-//        // data includes non-printable characters because it's in TLV format, so we'll pass it as b64
-//        request.httpBody = try! JSONSerialization.data(withJSONObject: ["payload": arqc])
-//        request.setValue(self.apiKey, forHTTPHeaderField: "Authorization") // set the API key header
-//        
-//        // make an HTTP request
-//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//            if let data = data {
-//                self.onTransaction?(String(data: data, encoding: .utf8)!, self.transactionEvent, self.transactionStatus)
-//            } else if let error = error {
-//                print(error)
-//            }
-//        }
-//        
-//        task.resume()
-//    }
+    func onARQCReceived(_ data: Data!) {
+        print("ARQC:")
+        
+        var arqc: String = "" // format the same way magtek would
+        for byte in data {
+            arqc += String(format: "%02X", byte)
+        }
+        
+        let url = URL(string: "\(self.apiUrl)/api/emv")
+        var request = URLRequest(url: url!)
+        
+        request.httpMethod = "POST"
+        // data includes non-printable characters because it's in TLV format, so we'll pass it as b64
+        request.httpBody = try! JSONSerialization.data(withJSONObject: ["payload": arqc])
+        request.setValue(self.apiKey, forHTTPHeaderField: "Authorization") // set the API key header
+        
+        // make an HTTP request to TPP for processing the EMV data
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
+                    let message = json["message"] as! [String: Any]
+                    var bytes: [UInt8] = message["arpc"] as! [UInt8]
+                    //let data = Data(base64Encoded: message["arpc"] as! String) ?? Data()
+                    //var bytes: [UInt8] = data.map { byte in UInt8(byte) }
+                                        
+                    self.lib.setAcquirerResponse(&bytes, length: Int32(bytes.count))
+                    //self.onTransaction?("ARPC DATA: \(arpc)", self.transactionEvent, self.transactionStatus)
+                    //self.onTransaction?(String(data: data, encoding: .utf8)!, self.transactionEvent, self.transactionStatus)
+                } catch let error as NSError {
+                    self.onTransaction?("ERROR PROCESSING RESPONSE", self.transactionEvent, self.transactionStatus)
+                    print("Error in parsing JSON from response")
+                    print(error)
+                }
+            } else if let error = error {
+                self.onTransaction?("ERROR PROCESSING RESPONSE", self.transactionEvent, self.transactionStatus)
+                print("Error in HTTP request / response")
+                print(error)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func onTransactionResult(_ data: Data!) {
+        print("transaction data")
+        data.forEach { print(String(format: "%02X", $0)) }
+    }
     
     // -- END CALLBACKS --
     
     // public utility functions
     public func startDeviceDiscovery() {
-        self.devices = [:] // clear devices before scanning
+        // self.devices = [:] // clear devices before scanning
+        // ^ the above is legay if we need it again
+        
+        // instead of clearing devices, just return the already discovered devices.
+        // in the future, if we try connecting to the device and it is not successful
+        // we will exclude that entry from the list
+        for device in self.devices.values {
+            self.onDeviceDiscovered?(device.name, device.rssi)
+        }
+        
         if let state = self.bluetoothState {
             if (state == 0 || state == 3) { // 0 = Ok, 3 = Disconnected (which is also Ok...)
                 self.lib.startScanningForPeripherals()
@@ -138,7 +174,6 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             DispatchQueue.main.async {
                 var elapsed: TimeInterval = timeout
                 Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
-                    print("timer called")
                     if elapsed <= 0.0 {
                         print("timer ended unsuccessfully")
                         timer.invalidate()
@@ -162,12 +197,14 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
         }
     }
     
+    public func isConnected() -> Bool { return self.lib.isDeviceOpened() && self.lib.isDeviceConnected() }
     public func cancelDeviceDiscovery() { self.lib.stopScanningForPeripherals() }
     public func cancelTransaction() { self.lib.cancelTransaction() }
     
-    public func disconnect() {
+    public func disconnect() -> Bool {
         self.lib.clearBuffers()
-        self.lib.closeDevice()
+        self.lib.closeDeviceSync()
+        return self.isConnected()
     }
     
     public func getSerialNumber() -> String {
@@ -178,26 +215,26 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
         }
     }
     
-    public func startTransaction(_ amount: String, cashback: String) {
+    public func startTransaction(_ amount: String) {
+        self.lib.clearBuffers()
+        
         var amountBytes = n12Bytes(amount)
-        var cashbackBytes = n12Bytes(cashback)
+        var cashbackBytes = n12Bytes("0.00") // not using this for now
         var currencyCode = hexStringBytes("0840")
         
-        self.lib.startTransaction(60,
-            cardType: 7, // always offer all 3
-            option: 0, // we aren't using quick EMV
-            amount: &amountBytes,
-            transactionType: 0, // sale
-            cashBack: &cashbackBytes,
-            currencyCode: &currencyCode,
-            reportingOption: 2) // verbose reporting
+        // starting a transaction is quite a long-running event
+        DispatchQueue.main.async {
+            self.lib.startTransaction(60,
+                cardType: 7, // always offer all 3
+                option: 0, // we aren't using quick EMV
+                amount: &amountBytes,
+                transactionType: 0, // sale
+                cashBack: &cashbackBytes,
+                currencyCode: &currencyCode,
+                reportingOption: 2) // verbose reporting
+        }
     }
-    
-    // public getters
-    public func isConnected() -> Bool {
-        return self.lib.isDeviceOpened() && self.lib.isDeviceConnected()
-    }
-    
+        
     // public setters
     public func setDebug(_ debug: Bool) {
         MTSCRA.enableDebugPrint(debug)

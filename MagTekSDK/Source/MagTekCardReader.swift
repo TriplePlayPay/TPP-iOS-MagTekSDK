@@ -2,6 +2,8 @@ import Foundation
 
 public class MagTekCardReader {
     
+    private let apiUrl = "http://172.20.10.2"; // hardcode local testing IP for now
+    
     public class func getEventMessage(_ event: MagTekTransactionEvent) -> String {
         return camelCaseToCaps(String(describing: event))
     }
@@ -23,12 +25,12 @@ public class MagTekCardReader {
     }
     
     public init(_ apiKey: String, debug: Bool) {
-        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey)
+        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: self.apiUrl)
         self.reader.setDebug(debug)
     }
     
     public init(_ apiKey: String) {
-        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey)
+        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: self.apiUrl)
         self.reader.setDebug(false)
     }
     
@@ -44,14 +46,14 @@ public class MagTekCardReader {
         self.reader.connect(deviceName, 1000)
     }
     
-    public func disconnect() {
-        self.reader.disconnect()
+    public func disconnect() -> Bool {
         self.reader.onConnection = nil
+        return self.reader.disconnect()
     }
     
     public func startTransaction(_ amount: String, _ callback: @escaping ((String, MagTekTransactionEvent, MagTekTransactionStatus) -> ())) {
         self.reader.onTransaction = callback
-        self.reader.startTransaction(amount, cashback: "0")
+        self.reader.startTransaction(amount)
     }
     
     public func getSerialNumber() -> String { return self.reader.getSerialNumber() }
