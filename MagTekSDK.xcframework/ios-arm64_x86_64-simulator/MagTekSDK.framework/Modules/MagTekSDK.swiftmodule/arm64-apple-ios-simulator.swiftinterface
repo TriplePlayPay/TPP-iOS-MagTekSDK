@@ -1,0 +1,48 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target arm64-apple-ios15-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name MagTekSDK
+import Foundation
+@_exported import MagTekSDK
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public class MagTekCardReader {
+  public class func getEventMessage(_ event: MagTekSDK.MagTekTransactionEvent) -> Swift.String
+  public class func getStatusMessage(_ status: MagTekSDK.MagTekTransactionStatus) -> Swift.String
+  public func startDeviceDiscovery(_ callback: @escaping (Swift.String, Swift.Int32) -> ())
+  public func cancelDeviceDiscovery()
+  public init(_ apiKey: Swift.String, debug: Swift.Bool)
+  public init(_ apiKey: Swift.String)
+  public func connect(_ deviceName: Swift.String, timeout: Foundation.TimeInterval, _ callback: @escaping (Swift.Bool) -> ())
+  public func connect(_ deviceName: Swift.String, _ callback: @escaping (Swift.Bool) -> ())
+  public func disconnect() -> Swift.Bool
+  public func startTransaction(_ amount: Swift.String, _ callback: @escaping ((Swift.String, MagTekSDK.MagTekTransactionEvent, MagTekSDK.MagTekTransactionStatus) -> ()))
+  public func getSerialNumber() -> Swift.String
+  public func cancelTransaction()
+  @objc deinit
+}
+public enum MagTekTransactionEvent : Swift.UInt8 {
+  case noEvents, cardInserted, paymentMethodError, progressChange, waiting, timeout, complete, canceled, cardRemoved, contactless, cardSwipe
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+public enum MagTekTransactionStatus : Swift.UInt8 {
+  case noStatus, waiting, reading, selectingApplication, selectingCardholderLanguage, selectingCardholderApplication, initiatingApplication, readingApplicationData, offlineAuthentication, processingRestrictions, cardholderVerification, terminalRiskManagement, terminalActionAnalysis, generatingCryptogram, cardActionAnalysis, onlineProcessing, waitingForProcessing, complete, error, approved, declined, canceledByMSR, emvConditionsNotSatisfied, emvCardBlocked, contactSelectionFailed, emvCardNotAccepted, emptyCandidateList, applicationBlocked
+  case hostCanceled
+  case applicationSelectionFailed, removedCard, collisionDetected, referToHandheldDevice, contactlessComplete, requestSwitchToMSR, wrongCardType, noInterchangeProfile
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+extension MagTekSDK.MagTekTransactionEvent : Swift.Equatable {}
+extension MagTekSDK.MagTekTransactionEvent : Swift.Hashable {}
+extension MagTekSDK.MagTekTransactionEvent : Swift.RawRepresentable {}
+extension MagTekSDK.MagTekTransactionStatus : Swift.Equatable {}
+extension MagTekSDK.MagTekTransactionStatus : Swift.Hashable {}
+extension MagTekSDK.MagTekTransactionStatus : Swift.RawRepresentable {}
