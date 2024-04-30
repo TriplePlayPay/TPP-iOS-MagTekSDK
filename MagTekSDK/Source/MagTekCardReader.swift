@@ -2,7 +2,7 @@ import Foundation
 
 public class MagTekCardReader {
     
-    private let apiUrl = "http://172.20.10.2"; // hardcode local testing IP for now
+    private var apiUrl = "https://tripleplaypay.com";
     
     public class func getEventMessage(_ event: MagTekTransactionEvent) -> String {
         return camelCaseToCaps(String(describing: event))
@@ -24,7 +24,8 @@ public class MagTekCardReader {
         self.reader.onDeviceDiscovered = nil
     }
     
-    public init(_ apiKey: String, debug: Bool) {
+    public init(_ apiKey: String, debug: Bool, apiUrl: String) {
+        self.apiUrl = apiUrl
         self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: self.apiUrl)
         self.reader.setDebug(debug)
     }

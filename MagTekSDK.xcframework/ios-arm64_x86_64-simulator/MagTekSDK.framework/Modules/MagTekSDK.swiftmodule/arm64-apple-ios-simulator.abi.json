@@ -40,8 +40,7 @@
             "moduleName": "MagTekSDK",
             "static": true,
             "declAttributes": [
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -147,7 +146,7 @@
           {
             "kind": "Constructor",
             "name": "init",
-            "printedName": "init(_:debug:)",
+            "printedName": "init(_:debug:apiUrl:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -166,11 +165,17 @@
                 "name": "Bool",
                 "printedName": "Swift.Bool",
                 "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               }
             ],
             "declKind": "Constructor",
-            "usr": "s:9MagTekSDK0aB10CardReaderC_5debugACSS_Sbtcfc",
-            "mangledName": "$s9MagTekSDK0aB10CardReaderC_5debugACSS_Sbtcfc",
+            "usr": "s:9MagTekSDK0aB10CardReaderC_5debug6apiUrlACSS_SbSStcfc",
+            "mangledName": "$s9MagTekSDK0aB10CardReaderC_5debug6apiUrlACSS_SbSStcfc",
             "moduleName": "MagTekSDK",
             "declAttributes": [
               "AccessControl"
@@ -2599,8 +2604,8 @@
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekCardReader.swift",
       "kind": "StringLiteral",
       "offset": 81,
-      "length": 20,
-      "value": "\"http:\/\/172.20.10.2\""
+      "length": 27,
+      "value": "\"https:\/\/tripleplaypay.com\""
     },
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
@@ -3683,7 +3688,7 @@
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
       "kind": "BooleanLiteral",
-      "offset": 2222,
+      "offset": 2180,
       "length": 5,
       "value": "false"
     },

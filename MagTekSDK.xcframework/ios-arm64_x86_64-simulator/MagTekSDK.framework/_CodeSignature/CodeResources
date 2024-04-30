@@ -18,11 +18,11 @@
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		QyrAXtqtspn6uXj2BkMIWz5yUi0=
+		IkUgrswfEVGk/nTp9RcWgtTqg8E=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		mx460ZOfF8tWEnP8IiYsI/eI2Bw=
+		AVfwpsYsj5nUgWBzG3ea7GXZy6k=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -30,19 +30,19 @@
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		mx460ZOfF8tWEnP8IiYsI/eI2Bw=
+		AVfwpsYsj5nUgWBzG3ea7GXZy6k=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		B4E8ifUiYatN64e0GTB8hxEDjKw=
+		wpCZ3csL8HrCgjn+Kf49+kA0Y0o=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		QyrAXtqtspn6uXj2BkMIWz5yUi0=
+		IkUgrswfEVGk/nTp9RcWgtTqg8E=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		AvI/dQNuazYKqfB1QKbk+s169MY=
+		+inrmghBh3GUVK46VVp1+gos2Lg=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -50,11 +50,11 @@
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		AvI/dQNuazYKqfB1QKbk+s169MY=
+		+inrmghBh3GUVK46VVp1+gos2Lg=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		X+HYtsRsQZyiZCpX9wHeRx5lhio=
+		AhZVgenXu3gekQkUjNGiEC/kp+k=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -81,14 +81,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Vk2p7kqsXSifxdGrEBSt7rkIilvWCy+1yzssfVjfGOc=
+			8BDrZhSGFNQ08cqhvqVmDCxCLCD1VbTuMl+jJZMcWcE=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lJ4TPXi0uP5EsYmxATvpsey5XTlKExJGbgL/HsdACfw=
+			V0Ys+fWzSC7mfZHkLOoo1Rb3IXgP+6crOuh3C5yrx+U=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -102,28 +102,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			lJ4TPXi0uP5EsYmxATvpsey5XTlKExJGbgL/HsdACfw=
+			V0Ys+fWzSC7mfZHkLOoo1Rb3IXgP+6crOuh3C5yrx+U=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			33BWd4HEtDorSxO40S/XwXKIpuOHL6/hJM4rz7MZEuc=
+			vbwpJ3HfB2A+vLQnH3p7+N14aoPSbqz3ZSu+GnFNEIU=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Vk2p7kqsXSifxdGrEBSt7rkIilvWCy+1yzssfVjfGOc=
+			8BDrZhSGFNQ08cqhvqVmDCxCLCD1VbTuMl+jJZMcWcE=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cVVUQsOiDPP5xoTbjOBhrxhKi89d9NZvT8dfz6ocw8k=
+			sqWzHyFsr24XjzPEzZWDCffRTWoSpapVjD8T6GJFW/k=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -137,14 +137,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			cVVUQsOiDPP5xoTbjOBhrxhKi89d9NZvT8dfz6ocw8k=
+			sqWzHyFsr24XjzPEzZWDCffRTWoSpapVjD8T6GJFW/k=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			fv8+mEz0J+i3nJt8b3EpYLK5G45nFDbYf8QxdPF++7o=
+			lL+7C9S/LYEXNknYwyI+De+tPmGqewFTn4ASDWuwr+4=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

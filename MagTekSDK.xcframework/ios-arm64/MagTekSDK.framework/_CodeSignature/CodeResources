@@ -14,27 +14,27 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		asAapibp7tQngcOh5y+h3BH3k1g=
+		nGXFMXwfEXAF6Nl59TDpj5Q+wtg=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		QyrAXtqtspn6uXj2BkMIWz5yUi0=
+		IkUgrswfEVGk/nTp9RcWgtTqg8E=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		S3xB2UNf/7WaJEQ7RdqlvEVP/6I=
+		eUe2eJ6w0v0sFugzahrFSgmyu0M=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		OD2sKoWCg3VNGQIdupE4Dba+mMI=
+		26cWKGIl4P4O4WwTZw1hcsmdBBI=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		S3xB2UNf/7WaJEQ7RdqlvEVP/6I=
+		eUe2eJ6w0v0sFugzahrFSgmyu0M=
 		</data>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		g4GNe8pILL/hTN7XTd90zf0hZSs=
+		9SjS8tLY+hiyp93LMo+ijvDkO/c=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -61,35 +61,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Vk2p7kqsXSifxdGrEBSt7rkIilvWCy+1yzssfVjfGOc=
+			8BDrZhSGFNQ08cqhvqVmDCxCLCD1VbTuMl+jJZMcWcE=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			mefUK+ISA7sCZympeBzboQFDKRn2k1JdduvQ4ZOgHVo=
+			DKkXFEAMUrh3F+VhHKgsPxt/rNCayOoMxquBX07m0g4=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			bOEztrf3c8SuVzZwQz+JqrLQX+1gSTaGsuyQlLwk65A=
+			/bgxK3fngQMUxf6JqCrYKeuqO+gXglQFtYYgA3HTRfo=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			mefUK+ISA7sCZympeBzboQFDKRn2k1JdduvQ4ZOgHVo=
+			DKkXFEAMUrh3F+VhHKgsPxt/rNCayOoMxquBX07m0g4=
 			</data>
 		</dict>
 		<key>Modules/MagTekSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			htzlcCUhOdbWYhGpPkAGKralWeakl7SrvLXolUPaBxw=
+			YtcfEVDujKZvNV2EAjmS7nrsDlKGKXI/bjNFsJN/Fmo=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

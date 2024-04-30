@@ -44,7 +44,6 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     public var onDeviceDiscovered: ((String, Int32) -> ())?
     public var onConnection: ((Bool) -> ())?
     public var onTransaction: ((String, MagTekTransactionEvent, MagTekTransactionStatus) -> ())?
-    public var onError: ((String) -> ())?
     
     private var debug: Bool = false
     
@@ -52,7 +51,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     private let apiKey: String
     private let apiUrl: String
     public init(_ deviceType: Int, apiKey: String, apiUrl: String) {
-        print("version - 0.0.22")
+        print("version - 0.0.23")
 
         self.apiKey = apiKey
         self.apiUrl = apiUrl
@@ -95,12 +94,15 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     }
     
     func onARQCReceived(_ data: Data!) {
-        print("ARQC:")
-        
         var arqc: String = "" // format the same way magtek would
         for byte in data {
             arqc += String(format: "%02X", byte)
         }
+        
+        let a: String = data.map({ byte in String(format: "%02X", byte) }).joined()
+        print("ARQC: \(a)")
+        
+        print("sending payload to \(self.apiUrl)")
         
         let url = URL(string: "\(self.apiUrl)/api/emv")
         var request = URLRequest(url: url!)
@@ -111,36 +113,36 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
         request.setValue(self.apiKey, forHTTPHeaderField: "Authorization") // set the API key header
         
         // make an HTTP request to TPP for processing the EMV data
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             if let data = data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
-                    let message = json["message"] as! [String: Any]
-                    var bytes: [UInt8] = message["arpc"] as! [UInt8]
-                    //let data = Data(base64Encoded: message["arpc"] as! String) ?? Data()
-                    //var bytes: [UInt8] = data.map { byte in UInt8(byte) }
-                                        
-                    self.lib.setAcquirerResponse(&bytes, length: Int32(bytes.count))
-                    //self.onTransaction?("ARPC DATA: \(arpc)", self.transactionEvent, self.transactionStatus)
-                    //self.onTransaction?(String(data: data, encoding: .utf8)!, self.transactionEvent, self.transactionStatus)
+                    if json["status"] as! Bool {
+                        let message = json["message"] as! [String: Any]
+                        let data = message["arpc"] as! [UInt8]
+                        var bytes: [UInt8] = data.map { byte in UInt8(byte) }
+                        self.lib.setAcquirerResponse(&bytes, length: Int32(bytes.count))
+                    } else {
+                        let errorMessage = json["error"] as! String
+                        print("Error from API: \(errorMessage)")
+                        self.lib.cancelTransaction()
+                    }
                 } catch let error as NSError {
-                    self.onTransaction?("ERROR PROCESSING RESPONSE", self.transactionEvent, self.transactionStatus)
+                    self.lib.cancelTransaction()
                     print("Error in parsing JSON from response")
                     print(error)
                 }
             } else if let error = error {
-                self.onTransaction?("ERROR PROCESSING RESPONSE", self.transactionEvent, self.transactionStatus)
+                self.lib.cancelTransaction()
                 print("Error in HTTP request / response")
                 print(error)
             }
-        }
-        
-        task.resume()
+        }.resume()
     }
     
     func onTransactionResult(_ data: Data!) {
-        print("transaction data")
-        data.forEach { print(String(format: "%02X", $0)) }
+        let s = data.map { String(format: "%02X ", $0) }
+        print("Transaction Data: \(s)")
     }
     
     // -- END CALLBACKS --
@@ -175,17 +177,15 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                 var elapsed: TimeInterval = timeout
                 Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
                     if elapsed <= 0.0 {
-                        print("timer ended unsuccessfully")
                         timer.invalidate()
                         self.onConnection?(false)
                     } else if self.lib.isDeviceConnected() && self.lib.isDeviceOpened() {
-                        print("timer ended successfully")
                         timer.invalidate()
                         self.lib.clearBuffers() // clear the message buffers after connecting
                         self.deviceSerial = self.lib.getDeviceSerial() ?? self.deviceSerial
                         self.lib.sendCommandSync(MagTekCommand.setMSR.rawValue) // put device into MSR mode
                         self.lib.sendCommandSync(MagTekCommand.setBLE.rawValue) // set response mode to BLE, then set date + time
-                        self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
+                        //self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
                         self.onConnection?(true)
                     }
                     elapsed -= interval
