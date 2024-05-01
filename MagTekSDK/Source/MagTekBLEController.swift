@@ -118,14 +118,18 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
                     if json["status"] as! Bool {
-                        let message = json["message"] as! [String: Any]
-                        let data = message["arpc"] as! [UInt8]
-                        var bytes: [UInt8] = data.map { byte in UInt8(byte) }
-                        self.lib.setAcquirerResponse(&bytes, length: Int32(bytes.count))
+                        //let message = json["message"] as! [String: Any]
+                        //let data = message["arpc"] as! [UInt8]
+                        //var bytes: [UInt8] = data.map { byte in UInt8(byte) }
+                        //var bytes = message["arpc"] as! [UInt8]
+                        DispatchQueue.main.async {
+                            self.onTransaction?("SUCCESS - PAYMENT NOT PROCESSED (online processing will be supported version 0.1.0)", .complete, .complete)
+                            //self.lib.setAcquirerResponse(&bytes, length: Int32(bytes.count))
+                        }
                     } else {
+                        self.lib.cancelTransaction()
                         let errorMessage = json["error"] as! String
                         print("Error from API: \(errorMessage)")
-                        self.lib.cancelTransaction()
                     }
                 } catch let error as NSError {
                     self.lib.cancelTransaction()
@@ -185,7 +189,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                         self.deviceSerial = self.lib.getDeviceSerial() ?? self.deviceSerial
                         self.lib.sendCommandSync(MagTekCommand.setMSR.rawValue) // put device into MSR mode
                         self.lib.sendCommandSync(MagTekCommand.setBLE.rawValue) // set response mode to BLE, then set date + time
-                        //self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
+                        self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
                         self.onConnection?(true)
                     }
                     elapsed -= interval

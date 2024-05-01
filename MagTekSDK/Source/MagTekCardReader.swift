@@ -1,9 +1,7 @@
 import Foundation
 
 public class MagTekCardReader {
-    
-    private var apiUrl = "https://tripleplaypay.com";
-    
+        
     public class func getEventMessage(_ event: MagTekTransactionEvent) -> String {
         return camelCaseToCaps(String(describing: event))
     }
@@ -24,14 +22,18 @@ public class MagTekCardReader {
         self.reader.onDeviceDiscovered = nil
     }
     
-    public init(_ apiKey: String, debug: Bool, apiUrl: String) {
-        self.apiUrl = apiUrl
-        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: self.apiUrl)
+    public init(_ apiKey: String, debug: Bool, debugUrl: String) {
+        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: debugUrl)
+        self.reader.setDebug(debug)
+    }
+    
+    public init(_ apiKey: String, debug: Bool) {
+        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: "https://tripleplaypay.com")
         self.reader.setDebug(debug)
     }
     
     public init(_ apiKey: String) {
-        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: self.apiUrl)
+        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: "https://tripleplaypay.com")
         self.reader.setDebug(false)
     }
     

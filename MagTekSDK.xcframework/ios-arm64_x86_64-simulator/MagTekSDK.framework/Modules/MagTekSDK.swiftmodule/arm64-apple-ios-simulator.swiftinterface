@@ -12,7 +12,8 @@ public class MagTekCardReader {
   public class func getStatusMessage(_ status: MagTekSDK.MagTekTransactionStatus) -> Swift.String
   public func startDeviceDiscovery(_ callback: @escaping (Swift.String, Swift.Int32) -> ())
   public func cancelDeviceDiscovery()
-  public init(_ apiKey: Swift.String, debug: Swift.Bool, apiUrl: Swift.String)
+  public init(_ apiKey: Swift.String, debug: Swift.Bool, debugUrl: Swift.String)
+  public init(_ apiKey: Swift.String, debug: Swift.Bool)
   public init(_ apiKey: Swift.String)
   public func connect(_ deviceName: Swift.String, timeout: Foundation.TimeInterval, _ callback: @escaping (Swift.Bool) -> ())
   public func connect(_ deviceName: Swift.String, _ callback: @escaping (Swift.Bool) -> ())
