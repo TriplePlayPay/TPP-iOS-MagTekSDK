@@ -5,8 +5,8 @@ A library for integrating with MagTek devices from Triple Play Pay
 ## Using with Cocoa Pods
 To use this library in your cocoapods project, place this in your Podfile
 ```sh
-# make sure to target iOS 15 at a minimum
-platform :ios, '15.0' 
+# make sure to target iOS 13 at a minimum
+platform :ios, '13.0' 
 
 target 'MyApp' do
     # make sure to include 'use_frameworks!'
@@ -25,3 +25,5 @@ sh ./build-xcframework.sh
 ```
 After that, you can look under the newly created `Build` folder to grab the xcframework.
 
+## Documentation
+Go [here](Docs/MagTekCardReader.md)
