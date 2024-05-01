@@ -5,8 +5,8 @@ A library for integrating with MagTek devices from Triple Play Pay
 ## Using with Cocoa Pods
 To use this library in your cocoapods project, place this in your Podfile
 ```sh
-# make sure to target iOS 13 at a minimum
-platform :ios, '13.0' 
+# make sure to target iOS 12.4 at a minimum
+platform :ios, '12.4'
 
 target 'MyApp' do
     # make sure to include 'use_frameworks!'
