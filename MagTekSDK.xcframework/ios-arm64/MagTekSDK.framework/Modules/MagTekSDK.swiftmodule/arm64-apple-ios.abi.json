@@ -73,6 +73,107 @@
             "funcSelfKind": "NonMutating"
           },
           {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(_:debug:debugUrl:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "MagTekCardReader",
+                "printedName": "MagTekSDK.MagTekCardReader",
+                "usr": "s:9MagTekSDK0aB10CardReaderC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:9MagTekSDK0aB10CardReaderC_5debug0F3UrlACSS_SbSStcfc",
+            "mangledName": "$s9MagTekSDK0aB10CardReaderC_5debug0F3UrlACSS_SbSStcfc",
+            "moduleName": "MagTekSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(_:debug:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "MagTekCardReader",
+                "printedName": "MagTekSDK.MagTekCardReader",
+                "usr": "s:9MagTekSDK0aB10CardReaderC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:9MagTekSDK0aB10CardReaderC_5debugACSS_Sbtcfc",
+            "mangledName": "$s9MagTekSDK0aB10CardReaderC_5debugACSS_Sbtcfc",
+            "moduleName": "MagTekSDK",
+            "declAttributes": [
+              "Convenience",
+              "AccessControl"
+            ],
+            "init_kind": "Convenience"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "MagTekCardReader",
+                "printedName": "MagTekSDK.MagTekCardReader",
+                "usr": "s:9MagTekSDK0aB10CardReaderC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:9MagTekSDK0aB10CardReaderCyACSScfc",
+            "mangledName": "$s9MagTekSDK0aB10CardReaderCyACSScfc",
+            "moduleName": "MagTekSDK",
+            "declAttributes": [
+              "Convenience",
+              "AccessControl"
+            ],
+            "init_kind": "Convenience"
+          },
+          {
             "kind": "Function",
             "name": "startDeviceDiscovery",
             "printedName": "startDeviceDiscovery(_:)",
@@ -144,108 +245,9 @@
             "funcSelfKind": "NonMutating"
           },
           {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(_:debug:debugUrl:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "MagTekCardReader",
-                "printedName": "MagTekSDK.MagTekCardReader",
-                "usr": "s:9MagTekSDK0aB10CardReaderC"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:9MagTekSDK0aB10CardReaderC_5debug0F3UrlACSS_SbSStcfc",
-            "mangledName": "$s9MagTekSDK0aB10CardReaderC_5debug0F3UrlACSS_SbSStcfc",
-            "moduleName": "MagTekSDK",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(_:debug:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "MagTekCardReader",
-                "printedName": "MagTekSDK.MagTekCardReader",
-                "usr": "s:9MagTekSDK0aB10CardReaderC"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:9MagTekSDK0aB10CardReaderC_5debugACSS_Sbtcfc",
-            "mangledName": "$s9MagTekSDK0aB10CardReaderC_5debugACSS_Sbtcfc",
-            "moduleName": "MagTekSDK",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "MagTekCardReader",
-                "printedName": "MagTekSDK.MagTekCardReader",
-                "usr": "s:9MagTekSDK0aB10CardReaderC"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:9MagTekSDK0aB10CardReaderCyACSScfc",
-            "mangledName": "$s9MagTekSDK0aB10CardReaderCyACSScfc",
-            "moduleName": "MagTekSDK",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "init_kind": "Designated"
-          },
-          {
             "kind": "Function",
             "name": "connect",
-            "printedName": "connect(_:timeout:_:)",
+            "printedName": "connect(_:_:_:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -260,9 +262,9 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "Double",
-                "printedName": "Swift.Double",
-                "usr": "s:Sd"
+                "name": "UInt64",
+                "printedName": "Swift.UInt64",
+                "usr": "s:s6UInt64V"
               },
               {
                 "kind": "TypeFunc",
@@ -284,12 +286,11 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:9MagTekSDK0aB10CardReaderC7connect_7timeout_ySS_SdySbctF",
-            "mangledName": "$s9MagTekSDK0aB10CardReaderC7connect_7timeout_ySS_SdySbctF",
+            "usr": "s:9MagTekSDK0aB10CardReaderC7connectyySS_s6UInt64VySbctF",
+            "mangledName": "$s9MagTekSDK0aB10CardReaderC7connectyySS_s6UInt64VySbctF",
             "moduleName": "MagTekSDK",
             "declAttributes": [
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -333,8 +334,7 @@
             "mangledName": "$s9MagTekSDK0aB10CardReaderC7connectyySS_ySbctF",
             "moduleName": "MagTekSDK",
             "declAttributes": [
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -345,14 +345,34 @@
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
+                "name": "Void",
+                "printedName": "()"
               }
             ],
             "declKind": "Func",
-            "usr": "s:9MagTekSDK0aB10CardReaderC10disconnectSbyF",
-            "mangledName": "$s9MagTekSDK0aB10CardReaderC10disconnectSbyF",
+            "usr": "s:9MagTekSDK0aB10CardReaderC10disconnectyyF",
+            "mangledName": "$s9MagTekSDK0aB10CardReaderC10disconnectyyF",
+            "moduleName": "MagTekSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getSerialNumber",
+            "printedName": "getSerialNumber()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9MagTekSDK0aB10CardReaderC15getSerialNumberSSyF",
+            "mangledName": "$s9MagTekSDK0aB10CardReaderC15getSerialNumberSSyF",
             "moduleName": "MagTekSDK",
             "declAttributes": [
               "AccessControl"
@@ -416,27 +436,6 @@
             "declKind": "Func",
             "usr": "s:9MagTekSDK0aB10CardReaderC16startTransactionyySS_ySS_AA0abG5EventOAA0abG6StatusOtctF",
             "mangledName": "$s9MagTekSDK0aB10CardReaderC16startTransactionyySS_ySS_AA0abG5EventOAA0abG6StatusOtctF",
-            "moduleName": "MagTekSDK",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "getSerialNumber",
-            "printedName": "getSerialNumber()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:9MagTekSDK0aB10CardReaderC15getSerialNumberSSyF",
-            "mangledName": "$s9MagTekSDK0aB10CardReaderC15getSerialNumberSSyF",
             "moduleName": "MagTekSDK",
             "declAttributes": [
               "AccessControl"
@@ -3643,80 +3642,108 @@
     },
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
-      "kind": "StringLiteral",
-      "offset": 1374,
-      "length": 8,
-      "value": "\"580101\""
-    },
-    {
-      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
-      "kind": "StringLiteral",
-      "offset": 1405,
-      "length": 8,
-      "value": "\"480101\""
-    },
-    {
-      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
-      "kind": "StringLiteral",
-      "offset": 1447,
-      "length": 12,
-      "value": "\"030C001800\""
-    },
-    {
-      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
-      "kind": "StringLiteral",
-      "offset": 1374,
-      "length": 8,
-      "value": "\"580101\""
-    },
-    {
-      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
-      "kind": "StringLiteral",
-      "offset": 1405,
-      "length": 8,
-      "value": "\"480101\""
-    },
-    {
-      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
-      "kind": "StringLiteral",
-      "offset": 1447,
-      "length": 12,
-      "value": "\"030C001800\""
-    },
-    {
-      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
       "kind": "Dictionary",
-      "offset": 1528,
+      "offset": 1373,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
       "kind": "StringLiteral",
-      "offset": 1571,
-      "length": 34,
-      "value": "\"00000000000000000000000000000000\""
+      "offset": 1511,
+      "length": 10,
+      "value": "\"\/api\/emv\""
     },
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
       "kind": "BooleanLiteral",
-      "offset": 1692,
+      "offset": 1555,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1653,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1972,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
       "kind": "StringLiteral",
-      "offset": 1766,
-      "length": 2,
-      "value": "\"\""
+      "offset": 2027,
+      "length": 12,
+      "value": "\"NO MESSAGE\""
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "StringLiteral",
+      "offset": 2238,
+      "length": 34,
+      "value": "\"00000000000000000000000000000000\""
     },
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
       "kind": "BooleanLiteral",
-      "offset": 2180,
+      "offset": 2316,
       "length": 5,
       "value": "false"
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2364,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "StringLiteral",
+      "offset": 13064,
+      "length": 8,
+      "value": "\"580101\""
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "StringLiteral",
+      "offset": 13095,
+      "length": 8,
+      "value": "\"480101\""
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "StringLiteral",
+      "offset": 13137,
+      "length": 12,
+      "value": "\"030C001800\""
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "StringLiteral",
+      "offset": 13064,
+      "length": 8,
+      "value": "\"580101\""
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "StringLiteral",
+      "offset": 13095,
+      "length": 8,
+      "value": "\"480101\""
+    },
+    {
+      "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",
+      "kind": "StringLiteral",
+      "offset": 13137,
+      "length": 12,
+      "value": "\"030C001800\""
     },
     {
       "filePath": "\/Users\/user\/Desktop\/TriplePlayPay\/Repos\/tpp-ios-magteksdk\/MagTekSDK\/Source\/MagTekBLEController.swift",

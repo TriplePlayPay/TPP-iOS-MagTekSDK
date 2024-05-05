@@ -23,73 +23,108 @@ public enum MagTekTransactionStatus: UInt8 { // range all over the place, we hav
 }
 
 class MagTekBLEController: NSObject, MTSCRAEventDelegate {
-    private enum MagTekCommand: String {
-        case setMSR = "580101"
-        case setBLE = "480101"
-        case setDateTimePrefix = "030C001800"
-    }
     
     private var devices: [String: MagTekBluetoothInfo] = [:]
-    private var deviceSerial: String = "00000000000000000000000000000000"
-    
+
     private var bluetoothState: MTSCRABLEState?
+    private let lib: MTSCRA = MTSCRA()
+    
+    private var apiUrlEndpoint: String = "/api/emv"
     private var scanning: Bool = false
-    
-    // internal state
-    private var displayMessage: String = ""
-    private var transactionEvent: MagTekTransactionEvent = .noEvents
-    private var transactionStatus: MagTekTransactionStatus = .noStatus
-    
-    // callback declarations
-    public var onDeviceDiscovered: ((String, Int32) -> ())?
-    public var onConnection: ((Bool) -> ())?
-    public var onTransaction: ((String, MagTekTransactionEvent, MagTekTransactionStatus) -> ())?
-    
+    private var apiUrl: String
+    private let apiKey: String
     private var debug: Bool = false
     
-    private let lib: MTSCRA = MTSCRA()
-    private let apiKey: String
-    private let apiUrl: String
+    // callback declarations
+    public var deviceDiscoveredCallback: ((String, Int32) -> ())?
+    public var deviceConnectionCallback: ((Bool) -> ())?
+    public var deviceTransactionCallback: ((String, MagTekTransactionEvent, MagTekTransactionStatus) -> ())?
+    
+    private var lastApprovalState: Bool = false
+    private var lastTransactionMessage: String = "NO MESSAGE"
+    private var lastTransactionStatus: MagTekTransactionStatus = .noStatus
+    private var lastTransactionEvent: MagTekTransactionEvent = .noEvents
+    
+    private var deviceSerialNumber: String = "00000000000000000000000000000000"
+    private var deviceIsConnecting: Bool = false
+    private var deviceIsConnected: Bool = false
+    
     public init(_ deviceType: Int, apiKey: String, apiUrl: String) {
-        print("version - 0.0.23")
+        print("version - 0.0.26")
 
         self.apiKey = apiKey
         self.apiUrl = apiUrl
-
+        
         super.init()
         self.lib.setDeviceType(UInt32(deviceType))
         self.lib.setConnectionType(UInt(BLE_EMV))
         self.lib.delegate = self
     }
     
-    // -- MT CALLBACKS --
-    func bleReaderStateUpdated(_ state: MTSCRABLEState) { self.bluetoothState = state }
+    private func debugPrint(_ tag: String, _ message: String) {
+        if debug {
+            print("\(tag): \(message)")
+        }
+    }
+    
+
+    
+    /* Callback functions for MTSCRA. These are called when an event happens ON THE DEVICE
+     *  - bleReaderStateUpdated (state: BLEState) -> `state` contains the phones internal BLE radio status
+     *  - onDeviceList (instance: Any, connectionType: Int, deviceList: [Any]) -> 'deviceList' has a list of discovered devices
+     *  - onDeviceConnectionDidChange(deviceType: Int, connected: Bool, instance: Any) -> `connected` tells us if the device is connected or not
+     *  - onTransactionStatus
+     */
+    
+    func bleReaderStateUpdated(_ state: MTSCRABLEState) {
+        debugPrint("MTSCRA callback", "bleReaderStateUpdated => \(state)")
+        self.bluetoothState = state
+    }
     
     func onDeviceList(_ instance: Any!, connectionType: UInt, deviceList: [Any]!) {
+        debugPrint("MTSCRA callback", "onDeviceList => size: \(deviceList.count)")
         for device in (deviceList as! [MTDeviceInfo])  {
             if !devices.keys.contains(device.name) {
-                self.devices[device.name] = MagTekBluetoothInfo(
+                devices[device.name] = MagTekBluetoothInfo(
                     name: device.name,
                     rssi: device.rssi,
                     address: device.address
                 )
-                self.onDeviceDiscovered?(device.name, device.rssi)
+                deviceDiscoveredCallback?(device.name, device.rssi)
+            }
+        }
+    }
+    
+    func onDeviceConnectionDidChange(_ deviceType: UInt, connected: Bool, instance: Any!) {
+        debugPrint("MTSCRA callback", "onDeviceConnectionDidChange => \(connected)")
+        if deviceIsConnecting { // only return the callback during the alloted "connecting" time window
+            deviceIsConnected = connected
+            if deviceIsConnected {
+                emitDeviceIsConnected()
             }
         }
     }
     
     func onTransactionStatus(_ data: Data!) {
+        lastTransactionEvent = MagTekTransactionEvent(rawValue: data[0])!
+        lastTransactionStatus = MagTekTransactionStatus(rawValue: data[2])!
+        debugPrint("MTSCRA callback", "onTransactionStatus => Event: \(lastTransactionEvent), Status: \(lastTransactionStatus)")
         DispatchQueue.main.async {
-            self.transactionEvent = MagTekTransactionEvent(rawValue: data[0])!
-            self.transactionStatus = MagTekTransactionStatus(rawValue: data[2])!
-            self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+            self.deviceTransactionCallback?( // we need self inside of an async context
+                self.lastTransactionMessage,
+                self.lastTransactionEvent,
+                self.lastTransactionStatus)
         }
     }
     
     func onDisplayMessageRequest(_ data: Data!) {
+        lastTransactionMessage = String(data: data, encoding: .utf8) ?? "COULD NOT PARSE DISPLAY MESSAGE"
+        debugPrint("MTSCRA callback", "onDisplayMessageRequest => \(lastTransactionMessage)")
         DispatchQueue.main.async {
-            self.displayMessage = String(data: data, encoding: .utf8) ?? "COULD NOT PARSE DISPLAY MESSAGE"
-            self.onTransaction?(self.displayMessage, self.transactionEvent, self.transactionStatus)
+            self.deviceTransactionCallback?( // we need self inside of an async context
+                self.lastTransactionMessage,
+                self.lastTransactionEvent,
+                self.lastTransactionStatus)
         }
     }
     
@@ -118,13 +153,13 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
                     if json["status"] as! Bool {
-                        //let message = json["message"] as! [String: Any]
-                        //let data = message["arpc"] as! [UInt8]
-                        //var bytes: [UInt8] = data.map { byte in UInt8(byte) }
-                        //var bytes = message["arpc"] as! [UInt8]
+                        let message = json["message"] as! [String: Any]
+                        let arpc = message["arpc"] as! String
+                        
+                        var bytes = hexStringBytes(arpc)
+                        
                         DispatchQueue.main.async {
-                            self.onTransaction?("SUCCESS - PAYMENT NOT PROCESSED (online processing will be supported version 0.1.0)", .complete, .complete)
-                            //self.lib.setAcquirerResponse(&bytes, length: Int32(bytes.count))
+                            self.lib.setAcquirerResponse(&bytes, length: Int32(bytes.count))
                         }
                     } else {
                         self.lib.cancelTransaction()
@@ -144,91 +179,89 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
         }.resume()
     }
     
-    func onTransactionResult(_ data: Data!) {
-        let s = data.map { String(format: "%02X ", $0) }
-        print("Transaction Data: \(s)")
-    }
+    /* Public functions for MagTekCardReader
+     * General:
+     *  - getSerialNumber () -> gets the serial number of the device
+     *  - setDebug (debug: Bool) -> sets the MTSCRA and TPP debug print statements to go to stdout
+     * Discovery:
+     *  - startDeviceDiscovery () -> tells the phone to begin a bluetooth LE device scan
+     *  - cancelDeviceDiscovery () -> tells the phone to stop scanning for LE devices
+     * Connection:
+     *  - connect (name: String, timeout: TimeInterval) -> tells the phone to connect to the device with `name` and
+                                                            cancel itself after `timeout` seconds have passed
+     *  - disconnect () -> tells the phone to stop attempting to connect
+     * Transactions:
+     *  - startTransaction (amount: String) -> begins a transaction process on the device with `amount` being charged to the card
+     *  - cancelTransaction () -> cancels a running transaction
+     */
     
-    // -- END CALLBACKS --
-    
-    // public utility functions
     public func startDeviceDiscovery() {
-        // self.devices = [:] // clear devices before scanning
-        // ^ the above is legay if we need it again
-        
-        // instead of clearing devices, just return the already discovered devices.
-        // in the future, if we try connecting to the device and it is not successful
-        // we will exclude that entry from the list
-        for device in self.devices.values {
-            self.onDeviceDiscovered?(device.name, device.rssi)
-        }
-        
-        if let state = self.bluetoothState {
+        debug ? print("startDeviceDiscovery: called") : ()
+        // TODO: idea => if we try connecting to a previously discovered device and it is not successful we will exclude that entry from the list
+        // fire the callback for each of the already discovered devices.
+        devices.forEach({ deviceName, device in deviceDiscoveredCallback?(deviceName, device.rssi) })
+        if let state = bluetoothState { // if the bluetooth state has been captured, and it's okay, we can continue
             if (state == 0 || state == 3) { // 0 = Ok, 3 = Disconnected (which is also Ok...)
-                self.lib.startScanningForPeripherals()
+                lib.startScanningForPeripherals()
             }
         }
     }
     
-    public func connect(_ deviceName: String, _ timeout: TimeInterval) {
+    public func cancelDeviceDiscovery() {
+        debug ? print("cancelDeviceDiscovery: called") : ()
+        lib.stopScanningForPeripherals()
+    }
+    
+    private func emitDeviceIsConnected() {
+        lib.clearBuffers()
+        deviceSerialNumber = lib.getDeviceSerial()
+        lib.sendCommandSync("580101") // set MSR
+        lib.sendCommandSync("480101") // set BLE
+        deviceConnectionCallback?(true)
+        deviceIsConnecting = false
+    }
+    
+    private func emitDeviceDisconnected() {
+        deviceConnectionCallback?(false)
+        self.lib.closeDevice() // make sure we aren't connected after the fact
+    }
+    
+    public func connect(_ deviceName: String, _ timeout: DispatchTime) {
         if let device = self.devices[deviceName] {
-            self.lib.setAddress(device.address)
-            self.lib.openDevice()
+            deviceIsConnecting = true
+            lib.setAddress(device.address)
+            lib.openDevice()
             
-            let interval: TimeInterval = 0.01
-            
-            DispatchQueue.main.async {
-                var elapsed: TimeInterval = timeout
-                Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { timer in
-                    if elapsed <= 0.0 {
-                        timer.invalidate()
-                        self.onConnection?(false)
-                    } else if self.lib.isDeviceConnected() && self.lib.isDeviceOpened() {
-                        timer.invalidate()
-                        self.lib.clearBuffers() // clear the message buffers after connecting
-                        self.deviceSerial = self.lib.getDeviceSerial() ?? self.deviceSerial
-                        self.lib.sendCommandSync(MagTekCommand.setMSR.rawValue) // put device into MSR mode
-                        self.lib.sendCommandSync(MagTekCommand.setBLE.rawValue) // set response mode to BLE, then set date + time
-                        self.lib.sendExtendedCommandSync(MagTekCommand.setDateTimePrefix.rawValue + self.deviceSerial + getDateByteString())
-                        self.onConnection?(true)
-                    }
-                    elapsed -= interval
-                })
-            }
+            DispatchQueue.main.asyncAfter(deadline: timeout, execute: {
+                self.debugPrint("Connect Timeout", "called")
+                self.deviceIsConnected ? self.emitDeviceIsConnected() : self.emitDeviceDisconnected() // ensure we emit SOMETHING
+                self.deviceIsConnecting = false // set the device to not connecting so we dont report a boolean after the timeout
+            })
         } else if self.debug {
-            print("ERROR in connect:")
-            print("- could not find a device with name \(deviceName)")
+            print("connect: could not find a device with name \(deviceName)")
         }
     }
     
-    public func isConnected() -> Bool { return self.lib.isDeviceOpened() && self.lib.isDeviceConnected() }
-    public func cancelDeviceDiscovery() { self.lib.stopScanningForPeripherals() }
-    public func cancelTransaction() { self.lib.cancelTransaction() }
-    
-    public func disconnect() -> Bool {
-        self.lib.clearBuffers()
-        self.lib.closeDeviceSync()
-        return self.isConnected()
-    }
-    
-    public func getSerialNumber() -> String {
-        if self.lib.isDeviceConnected() {
-            return self.lib.getDeviceSerial()
-        } else {
-            return "disconnected"
+    public func disconnect() {
+        debug ? print("disconnect: called") : ()
+        DispatchQueue.main.async {
+            self.lib.clearBuffers()
+            self.lib.closeDeviceSync()
         }
     }
     
     public func startTransaction(_ amount: String) {
-        self.lib.clearBuffers()
+        debug ? print("startTransaction: called") : ()
+        
+        lib.clearBuffers() // clear out buffers before the transaction begins
         
         var amountBytes = n12Bytes(amount)
         var cashbackBytes = n12Bytes("0.00") // not using this for now
         var currencyCode = hexStringBytes("0840")
         
-        // starting a transaction is quite a long-running event
-        DispatchQueue.main.async {
-            self.lib.startTransaction(60,
+        DispatchQueue.main.async { // starting a transaction is a long-running event
+            // we need self inside of an async context for some reason
+            self.lib.startTransaction(0x3c, // time limit
                 cardType: 7, // always offer all 3
                 option: 0, // we aren't using quick EMV
                 amount: &amountBytes,
@@ -238,10 +271,33 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                 reportingOption: 2) // verbose reporting
         }
     }
-        
-    // public setters
+    
+    public func cancelTransaction() {
+        debug ? print("cancelTransaction: called") : ()
+        lib.cancelTransaction()
+    }
+    
+    public func isConnected() -> Bool {
+        let connected = lib.isDeviceOpened() && lib.isDeviceConnected()
+        debug ? print("isConnected: \(connected)") : ()
+        return connected
+    }
+    
+    public func getSerialNumber() -> String {
+        let serialNumber = isConnected() ? lib.getDeviceSerial() : "disconnected"
+        debug ? print("getSerialNumber: called") : ()
+        return serialNumber ?? "Error getting serial number"
+    }
+    
     public func setDebug(_ debug: Bool) {
+        print("debug \(debug ? "enabled" : "disabled")")
         MTSCRA.enableDebugPrint(debug)
         self.debug = debug
+    }
+    
+    private enum MagTekCommand: String {
+        case setMSR = "580101"
+        case setBLE = "480101"
+        case setDateTimePrefix = "030C001800"
     }
 }

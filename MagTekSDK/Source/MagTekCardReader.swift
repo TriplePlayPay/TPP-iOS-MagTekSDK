@@ -10,59 +10,57 @@ public class MagTekCardReader {
         return camelCaseToCaps(String(describing: status))
     }
     
-    private let reader: MagTekBLEController
+    private let bleController: MagTekBLEController
     
-    public func startDeviceDiscovery(_ callback: @escaping (String, Int32) -> ()) {
-        self.reader.onDeviceDiscovered = callback
-        self.reader.startDeviceDiscovery()
+    public init(_ apiKey: String, debug: Bool, debugUrl: String) {
+        bleController = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: debugUrl)
+        bleController.setDebug(debug)
+    }
+    
+    public convenience init(_ apiKey: String, debug: Bool) {
+        self.init(apiKey, debug: debug, debugUrl: "https://www.tripleplaypay.com")
+    }
+    
+    public convenience init(_ apiKey: String) { // I hate the keyword "convenience" but... API consistency :)
+        self.init(apiKey, debug: true, debugUrl: "https://www.tripleplaypay.com")
+    }
+    
+    public func startDeviceDiscovery(_ deviceDiscoveredCallback: @escaping (String, Int32) -> ()) {
+        bleController.deviceDiscoveredCallback = deviceDiscoveredCallback
+        bleController.startDeviceDiscovery()
     }
     
     public func cancelDeviceDiscovery() {
-        self.reader.cancelDeviceDiscovery()
-        self.reader.onDeviceDiscovered = nil
+        bleController.cancelDeviceDiscovery()
+        bleController.deviceDiscoveredCallback = nil
     }
     
-    public init(_ apiKey: String, debug: Bool, debugUrl: String) {
-        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: debugUrl)
-        self.reader.setDebug(debug)
+    public func connect(_ deviceName: String, _ timeoutSeconds: UInt64, _ deviceConnectionCallback: @escaping (Bool) -> ()) {
+        bleController.deviceConnectionCallback = deviceConnectionCallback
+        bleController.connect(deviceName, DispatchTime.now() + Double(timeoutSeconds))
     }
     
-    public init(_ apiKey: String, debug: Bool) {
-        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: "https://tripleplaypay.com")
-        self.reader.setDebug(debug)
+    public func connect(_ deviceName: String, _ deviceConnectionCallback: @escaping (Bool) -> ()) {
+        bleController.deviceConnectionCallback = deviceConnectionCallback
+        bleController.connect(deviceName, DispatchTime.now() + 10.0) // allow 10 seconds to connect by default
     }
     
-    public init(_ apiKey: String) {
-        self.reader = MagTekBLEController(MAGTEKTDYNAMO, apiKey: apiKey, apiUrl: "https://tripleplaypay.com")
-        self.reader.setDebug(false)
+    public func disconnect() {
+        bleController.deviceConnectionCallback = nil
+        bleController.disconnect()
     }
     
-    // supply timeout by kwarg
-    public func connect(_ deviceName: String, timeout: TimeInterval, _ callback: @escaping (Bool) -> ()) {
-        self.reader.onConnection = callback
-        self.reader.connect(deviceName, timeout)
+    public func getSerialNumber() -> String {
+        return bleController.getSerialNumber()
     }
     
-    // default 10 seconds timeout
-    public func connect(_ deviceName: String, _ callback: @escaping (Bool) -> ()) {
-        self.reader.onConnection = callback
-        self.reader.connect(deviceName, 1000)
+    public func startTransaction(_ amount: String, _ deviceTransactionCallback: @escaping ((String, MagTekTransactionEvent, MagTekTransactionStatus) -> ())) {
+        bleController.deviceTransactionCallback = deviceTransactionCallback
+        bleController.startTransaction(amount)
     }
-    
-    public func disconnect() -> Bool {
-        self.reader.onConnection = nil
-        return self.reader.disconnect()
-    }
-    
-    public func startTransaction(_ amount: String, _ callback: @escaping ((String, MagTekTransactionEvent, MagTekTransactionStatus) -> ())) {
-        self.reader.onTransaction = callback
-        self.reader.startTransaction(amount)
-    }
-    
-    public func getSerialNumber() -> String { return self.reader.getSerialNumber() }
     
     public func cancelTransaction() {
-        self.reader.cancelTransaction()
-        self.reader.onTransaction = nil
+        bleController.cancelTransaction()
+        bleController.deviceTransactionCallback = nil
     }
 }
