@@ -35,7 +35,7 @@ public class MagTekCardReader {
         bleController.deviceDiscoveredCallback = nil
     }
     
-    public func connect(_ deviceName: String, _ timeoutSeconds: UInt64, _ deviceConnectionCallback: @escaping (Bool) -> ()) {
+    public func connect(_ deviceName: String, _ timeoutSeconds: UInt32, _ deviceConnectionCallback: @escaping (Bool) -> ()) {
         bleController.deviceConnectionCallback = deviceConnectionCallback
         bleController.connect(deviceName, DispatchTime.now() + Double(timeoutSeconds))
     }
