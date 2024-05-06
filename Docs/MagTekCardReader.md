@@ -21,7 +21,7 @@ Once you've found the device to pair with, it's a good idea to stop the internal
 cardReader.cancelDeviceDiscovery()
 ```
 ## Connect
-In order to connect to a device, you need its name from the `startDeviceDiscovery` method. The `connect` method takes in two arguments: the first one is the `String` representing the device's name. the second argument is a callback. This callback accepts one argument which is a boolean that represents if the device has been connected or not. Eventually, after 10 seconds, if the device has not connected, the callback will be returned with `false` as the argument.
+In order to connect to a device, you need its name from the `startDeviceDiscovery` method. The `connect` method takes in three arguments: the first one is the `String` representing the device's name. The second argument is an optional `Int32` timeout value in seconds. The default timeout is `10` seconds. After the timeout completes, the device will stop attempting to connect. The third argument is a callback. This callback accepts one argument which is a `Bool` that represents if the device has been connected or not. if the device has not connected after the timeout, the callback will be returned with `false` as the argument.
 ```swift
 cardReader.connect(deviceName, { connected in
     if connected {
@@ -37,7 +37,7 @@ In order to sever the connection, use the `disconnect` method
 cardReader.disconnect()
 ```
 ## Start Transaction
-Once the device is connected, you will have the ability to initiate an EMV transaction. The method `startTransaction` takes two arguments. The first argument is a string representing the dollar amount of the transaction. The decimal `.` must be in the string.
+Once the device is connected, you will have the ability to initiate an EMV transaction. The method `startTransaction` takes two arguments. The first argument is a `String` representing the dollar amount of the transaction. The decimal `.` must be in the string. The second argument is a callback which takes in three arguments: a `String` which represents a message the device is trying to communicate to the end user, a `TransactionEvent` which updates each time the device has an event to report, and a `TransactionStatus` which updates each time the device's status changes throughout a transaction.
 ```swift
 cardReader.startTransaction("1.01", { message, event, status in
     // check to see if the transaction is completed
@@ -54,17 +54,54 @@ In order to prematurely complete a transaction, you can use the `cancelTransacti
 ```swift
 cardReader.cancelTransaction()
 ```
+### Enums
 #### Transaction Events
-- noEvents
-- cardInserted
-- paymentMethodError
-- progressChange
-- waiting
-- timeout
-- complete
-- canceled
-- cardRemoved
-- contactless
-- cardSwipe
+- noEvents: 0
+- cardInserted: 1
+- paymentMethodError: 2
+- progressChange: 3
+- waiting: 4
+- timeout: 5
+- complete: 6
+- canceled: 7
+- cardRemoved: 8
+- contactless: 9
+- cardSwipe: 10
 #### Transaction Statuses
-- coming soon
+- noStatus: 0
+- waiting: 1
+- reading: 2
+- selectingApplication: 3
+- selectingCardholderLanguage: 4
+- selectingCardholderApplication: 5
+- initiatingApplication: 6
+- readingApplicationData: 7
+- offlineAuthentication: 8
+- processingRestrictions: 9
+- cardholderVerification: 10
+- terminalRiskManagement: 11
+- terminalActionAnalysis: 12
+- generatingCryptogram: 13
+- cardActionAnalysis: 14
+- onlineProcessing: 15
+- waitingForProcessing: 16
+- complete: 17
+- error: 18
+- approved: 19
+- declined: 20
+- canceledByMSR: 21
+- emvConditionsNotSatisfied: 22,
+- emvCardBlocked: 23,
+- contactSelectionFailed: 24,
+- emvCardNotAccepted: 25,
+- emptyCandidateList: 26,
+- applicationBlocked: 27,
+- hostCanceled: 145,
+- applicationSelectionFailed: 40,
+- removedCard: 41,
+- collisionDetected: 42,
+- referToHandheldDevice: 43,
+- contactlessComplete: 44,
+- requestSwitchToMSR: 45,
+- wrongCardType: 46,
+- noInterchangeProfile: 47

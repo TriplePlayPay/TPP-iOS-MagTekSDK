@@ -7,6 +7,16 @@ import Swift
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+public enum MagTekTransactionStatus : Swift.UInt8 {
+  case noStatus, waiting, reading, selectingApplication, selectingCardholderLanguage, selectingCardholderApplication, initiatingApplication, readingApplicationData, offlineAuthentication, processingRestrictions, cardholderVerification, terminalRiskManagement, terminalActionAnalysis, generatingCryptogram, cardActionAnalysis, onlineProcessing, waitingForProcessing, complete, error, approved, declined, canceledByMSR, emvConditionsNotSatisfied, emvCardBlocked, contactSelectionFailed, emvCardNotAccepted, emptyCandidateList, applicationBlocked
+  case hostCanceled
+  case applicationSelectionFailed, removedCard, collisionDetected, referToHandheldDevice, contactlessComplete, requestSwitchToMSR, wrongCardType, noInterchangeProfile
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
 public class MagTekCardReader {
   public class func getEventMessage(_ event: MagTekSDK.MagTekTransactionEvent) -> Swift.String
   public class func getStatusMessage(_ status: MagTekSDK.MagTekTransactionStatus) -> Swift.String
@@ -31,19 +41,9 @@ public enum MagTekTransactionEvent : Swift.UInt8 {
     get
   }
 }
-public enum MagTekTransactionStatus : Swift.UInt8 {
-  case noStatus, waiting, reading, selectingApplication, selectingCardholderLanguage, selectingCardholderApplication, initiatingApplication, readingApplicationData, offlineAuthentication, processingRestrictions, cardholderVerification, terminalRiskManagement, terminalActionAnalysis, generatingCryptogram, cardActionAnalysis, onlineProcessing, waitingForProcessing, complete, error, approved, declined, canceledByMSR, emvConditionsNotSatisfied, emvCardBlocked, contactSelectionFailed, emvCardNotAccepted, emptyCandidateList, applicationBlocked
-  case hostCanceled
-  case applicationSelectionFailed, removedCard, collisionDetected, referToHandheldDevice, contactlessComplete, requestSwitchToMSR, wrongCardType, noInterchangeProfile
-  public init?(rawValue: Swift.UInt8)
-  public typealias RawValue = Swift.UInt8
-  public var rawValue: Swift.UInt8 {
-    get
-  }
-}
-extension MagTekSDK.MagTekTransactionEvent : Swift.Equatable {}
-extension MagTekSDK.MagTekTransactionEvent : Swift.Hashable {}
-extension MagTekSDK.MagTekTransactionEvent : Swift.RawRepresentable {}
 extension MagTekSDK.MagTekTransactionStatus : Swift.Equatable {}
 extension MagTekSDK.MagTekTransactionStatus : Swift.Hashable {}
 extension MagTekSDK.MagTekTransactionStatus : Swift.RawRepresentable {}
+extension MagTekSDK.MagTekTransactionEvent : Swift.Equatable {}
+extension MagTekSDK.MagTekTransactionEvent : Swift.Hashable {}
+extension MagTekSDK.MagTekTransactionEvent : Swift.RawRepresentable {}

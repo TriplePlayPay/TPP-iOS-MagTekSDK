@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		CE4D9F952BAA1A79002ED671 /* MagTekCardReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4D9F942BAA1A79002ED671 /* MagTekCardReader.swift */; };
 		CE4D9F962BAA1A79002ED671 /* MagTekCardReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4D9F942BAA1A79002ED671 /* MagTekCardReader.swift */; };
-		CE5158702BAF8DDD00642104 /* MagTekUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE51586F2BAF8DDD00642104 /* MagTekUtilities.swift */; };
-		CE5158712BAF8DDD00642104 /* MagTekUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE51586F2BAF8DDD00642104 /* MagTekUtilities.swift */; };
 		CE5158732BAF8EAE00642104 /* MagTekBLEController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5158722BAF8EAE00642104 /* MagTekBLEController.swift */; };
 		CE5158742BAF8EAE00642104 /* MagTekBLEController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5158722BAF8EAE00642104 /* MagTekBLEController.swift */; };
 		CE60F43F2B9E2CDA0055C47A /* MagTekSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = CE60F43E2B9E2CDA0055C47A /* MagTekSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -21,11 +19,14 @@
 		CE60F4672B9E371F0055C47A /* mtscra.h in Headers */ = {isa = PBXBuildFile; fileRef = CE60F4662B9E371F0055C47A /* mtscra.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE60F46B2B9E37460055C47A /* mtscra.h in Headers */ = {isa = PBXBuildFile; fileRef = CE60F4692B9E37460055C47A /* mtscra.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE60F46D2B9E3CD30055C47A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE60F4642B9E363D0055C47A /* libc++.tbd */; };
+		CE810BC72BE87CC100F42029 /* TransactionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE810BC62BE87CC100F42029 /* TransactionEvent.swift */; };
+		CE810BC82BE87CC100F42029 /* TransactionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE810BC62BE87CC100F42029 /* TransactionEvent.swift */; };
+		CE810BCA2BE87CF500F42029 /* TransactionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE810BC92BE87CF500F42029 /* TransactionStatus.swift */; };
+		CE810BCB2BE87CF500F42029 /* TransactionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE810BC92BE87CF500F42029 /* TransactionStatus.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CE4D9F942BAA1A79002ED671 /* MagTekCardReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagTekCardReader.swift; sourceTree = "<group>"; };
-		CE51586F2BAF8DDD00642104 /* MagTekUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagTekUtilities.swift; sourceTree = "<group>"; };
 		CE5158722BAF8EAE00642104 /* MagTekBLEController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagTekBLEController.swift; sourceTree = "<group>"; };
 		CE60F43B2B9E2CDA0055C47A /* MagTekSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MagTekSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE60F43E2B9E2CDA0055C47A /* MagTekSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MagTekSDK.h; sourceTree = "<group>"; };
@@ -37,6 +38,8 @@
 		CE60F4662B9E371F0055C47A /* mtscra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mtscra.h; sourceTree = "<group>"; };
 		CE60F4692B9E37460055C47A /* mtscra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mtscra.h; sourceTree = "<group>"; };
 		CE60F46C2B9E385E0055C47A /* build-xcframework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-xcframework.sh"; sourceTree = "<group>"; };
+		CE810BC62BE87CC100F42029 /* TransactionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionEvent.swift; sourceTree = "<group>"; };
+		CE810BC92BE87CF500F42029 /* TransactionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStatus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,9 +107,10 @@
 		CE60F4512B9E34B00055C47A /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				CE4D9F942BAA1A79002ED671 /* MagTekCardReader.swift */,
-				CE51586F2BAF8DDD00642104 /* MagTekUtilities.swift */,
 				CE5158722BAF8EAE00642104 /* MagTekBLEController.swift */,
+				CE4D9F942BAA1A79002ED671 /* MagTekCardReader.swift */,
+				CE810BC62BE87CC100F42029 /* TransactionEvent.swift */,
+				CE810BC92BE87CF500F42029 /* TransactionStatus.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -264,8 +268,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE810BCA2BE87CF500F42029 /* TransactionStatus.swift in Sources */,
 				CE4D9F952BAA1A79002ED671 /* MagTekCardReader.swift in Sources */,
-				CE5158702BAF8DDD00642104 /* MagTekUtilities.swift in Sources */,
+				CE810BC72BE87CC100F42029 /* TransactionEvent.swift in Sources */,
 				CE5158732BAF8EAE00642104 /* MagTekBLEController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,8 +279,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE810BCB2BE87CF500F42029 /* TransactionStatus.swift in Sources */,
 				CE4D9F962BAA1A79002ED671 /* MagTekCardReader.swift in Sources */,
-				CE5158712BAF8DDD00642104 /* MagTekUtilities.swift in Sources */,
+				CE810BC82BE87CC100F42029 /* TransactionEvent.swift in Sources */,
 				CE5158742BAF8EAE00642104 /* MagTekBLEController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

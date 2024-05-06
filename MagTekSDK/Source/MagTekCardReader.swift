@@ -1,7 +1,13 @@
 import Foundation
 
 public class MagTekCardReader {
-        
+    
+    private class func camelCaseToCaps(_ string: String) -> String {
+        return string.replacingOccurrences(of: "([A-Z])", with: " $1", options: .regularExpression)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .capitalized
+    }
+    
     public class func getEventMessage(_ event: MagTekTransactionEvent) -> String {
         return camelCaseToCaps(String(describing: event))
     }

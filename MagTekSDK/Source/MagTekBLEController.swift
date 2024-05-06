@@ -6,22 +6,6 @@ struct MagTekBluetoothInfo {
     let address: String
 }
 
-public enum MagTekTransactionEvent: UInt8 { // range from 0x00 -> 0x0a
-    case noEvents = 0x00, cardInserted, paymentMethodError, progressChange, waiting, timeout,
-         complete, canceled, cardRemoved, contactless, cardSwipe
-}
-
-public enum MagTekTransactionStatus: UInt8 { // range all over the place, we have to be explicit
-    case noStatus = 0x00, waiting, reading, selectingApplication, selectingCardholderLanguage, selectingCardholderApplication,
-         initiatingApplication, readingApplicationData, offlineAuthentication, processingRestrictions, cardholderVerification,
-         terminalRiskManagement, terminalActionAnalysis, generatingCryptogram, cardActionAnalysis, onlineProcessing,
-         waitingForProcessing, complete, error, approved, declined, canceledByMSR, emvConditionsNotSatisfied,
-         emvCardBlocked, contactSelectionFailed, emvCardNotAccepted, emptyCandidateList, applicationBlocked
-    case hostCanceled = 0x91
-    case applicationSelectionFailed = 0x28, removedCard, collisionDetected, referToHandheldDevice, contactlessComplete,
-         requestSwitchToMSR, wrongCardType, noInterchangeProfile
-}
-
 class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     private let publicMethodTag = String(describing: MagTekBLEController.self)
@@ -33,7 +17,6 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     private let lib: MTSCRA = MTSCRA()
     
     private var apiUrlEndpoint = "/api/emv"
-    private var scanning = false
     private var debug = false
 
     private var apiUrl: String
@@ -81,6 +64,9 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
      * - debugPrint (tag: String, message: String) -> prints a debug message to STDOUT. Takes a tag argument for better organization
      * - emitDeviceIsConnected () -> should get called when the device is determined to be connected; Configures the device
      * - emitDeviceDisconnected () -> should get called when the device has been disconnected
+     * - hexStringBytes (string: String): [UInt8] -> needed to parse response from Triple Play Pay API and pass to aquirerResponse. also useful for parsing data from device
+     * - dataToHexString (data: Data): String -> inversion of the above method
+     * - getDateByteString(): String -> returns a byte string in a format acceptable by the card reader
      */
     
     private func debugPrint(_ tag: String, _ message: String) {
@@ -98,7 +84,44 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     private func emitDeviceDisconnected() {
         deviceConnectionCallback?(false)
-        self.lib.closeDevice() // make sure we aren't connected after the fact
+        lib.closeDevice() // make sure we aren't connected after the fact
+    }
+    
+    private func hexStringBytes(_ string: String) -> [UInt8] {
+        let bytes = Array(string.utf8)
+        var data: [UInt8] = []
+        for i in stride(from: 1, to: bytes.count, by: 2){
+            let ascii = Array<UInt8>(bytes[i - 1...i] + [0])
+            let value = UInt8(strtoul(ascii, nil, 16))
+            data.append(value)
+        }
+        return data
+    }
+    
+    private func dataToHexString(_ data: Data) -> String {
+        return data.map({ String(format: "%02X", $0) }).joined()
+    }
+    
+    func n12Bytes(_ amount: String) -> [UInt8] {
+        let formattedString = String(format: "%12.0f", (Double(amount) ?? 0) * 100)
+        return hexStringBytes(formattedString)
+    }
+    
+    private func getDateByteString() -> String {
+        let dateComponents: Set<Calendar.Component> = [.month, .day, .hour, .minute, .second, .year]
+        let date = Calendar.current.dateComponents(dateComponents, from: Date())
+        let year = (date.year ?? 2008) - 2008
+        let format = String(repeating: "%02lX", count: 5) + "%04lX"
+        return String(format: format, date.month ?? 0, date.day ?? 0, date.hour ?? 0, date.minute ?? 0, date.second ?? 0, year)
+    }
+    
+    private func openHttpConnection(_ url: String) -> URLRequest {
+        let url = URL(string: url)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        request.setValue(self.apiKey, forHTTPHeaderField: "Authorization") // set the API key header
+        request.setValue("Content-Type", forHTTPHeaderField: "application/json")
+        return request
     }
     
     /* Callback functions for MTSCRA. These are called when an event happens ON THE DEVICE
@@ -152,6 +175,14 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     func onDisplayMessageRequest(_ data: Data!) {
         lastTransactionMessage = String(data: data, encoding: .utf8) ?? "COULD NOT PARSE DISPLAY MESSAGE"
+        if lastTransactionMessage == "TRANSACTION TERMINATED" {
+            if lastApprovalState {
+                lastApprovalState = false
+                lastTransactionMessage = "APPROVED"
+            } else {
+                lastTransactionMessage = "DECLINED"
+            }
+        }
         debugPrint(mtscraMethodTag, "onDisplayMessageRequest => \(lastTransactionMessage)")
         DispatchQueue.main.async {
             self.deviceTransactionCallback?( // we need self inside of an async context
@@ -162,23 +193,13 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     }
     
     func onARQCReceived(_ data: Data!) {
-        var arqc: String = "" // format the same way magtek would
-        for byte in data {
-            arqc += String(format: "%02X", byte)
-        }
+        debugPrint(mtscraMethodTag, "onARQCReceived")
         
-        let a: String = data.map({ byte in String(format: "%02X", byte) }).joined()
-        print("ARQC: \(a)")
+        let arqcHexString = dataToHexString(data)
+        var request = openHttpConnection(apiUrl + apiUrlEndpoint)
         
-        print("sending payload to \(self.apiUrl)")
-        
-        let url = URL(string: "\(self.apiUrl)/api/emv")
-        var request = URLRequest(url: url!)
-        
-        request.httpMethod = "POST"
         // data includes non-printable characters because it's in TLV format, so we'll pass it as b64
-        request.httpBody = try! JSONSerialization.data(withJSONObject: ["payload": arqc])
-        request.setValue(self.apiKey, forHTTPHeaderField: "Authorization") // set the API key header
+        request.httpBody = try! JSONSerialization.data(withJSONObject: ["payload": arqcHexString])
         
         // make an HTTP request to TPP for processing the EMV data
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -189,7 +210,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                         let message = json["message"] as! [String: Any]
                         let arpc = message["arpc"] as! String
                         
-                        var bytes = hexStringBytes(arpc)
+                        var bytes = self.hexStringBytes(arpc)
                         
                         DispatchQueue.main.async {
                             self.lib.setAcquirerResponse(&bytes, length: Int32(bytes.count))
@@ -214,7 +235,8 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     /* Public functions for MagTekCardReader
      * General:
-     *  - getSerialNumber () -> gets the serial number of the device
+     *  - isConnected (): Bool -> gives the current connection state
+     *  - getSerialNumber (): String -> gets the serial number of the device
      *  - setDebug (debug: Bool) -> sets the MTSCRA and TPP debug print statements to go to stdout
      * Discovery:
      *  - startDeviceDiscovery () -> tells the phone to begin a bluetooth LE device scan
@@ -271,9 +293,11 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
             lib.setAddress(device.address)
             lib.openDevice()
             DispatchQueue.main.asyncAfter(deadline: timeout, execute: {
-                self.debugPrint("CONNECT TIMEOUT", "called after \(timeout) second(s)")
-                self.deviceIsConnected ? self.emitDeviceIsConnected() : self.emitDeviceDisconnected() // ensure we emit SOMETHING
-                self.deviceIsConnecting = false // set the device to not connecting so we dont report a boolean after the timeout
+                if self.deviceIsConnecting {
+                    self.debugPrint("CONNECT TIMEOUT", "called after \(timeout) second(s)")
+                    self.deviceIsConnecting = false // set the device to not connecting so we dont report a boolean after the timeout
+                    self.deviceIsConnected ? self.emitDeviceIsConnected() : self.emitDeviceDisconnected() // ensure we emit SOMETHING
+                }
             })
         } else if self.debug {
             print("connect: could not find a device with name \(deviceName)")
@@ -290,7 +314,6 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     public func startTransaction(_ amount: String) {
         debugPrint(publicMethodTag, "startTranas")
-        
         lib.clearBuffers() // clear out buffers before the transaction begins
         
         var amountBytes = n12Bytes(amount)
