@@ -15,7 +15,7 @@ public class MagTekCardReader {
   convenience public init(_ apiKey: Swift.String)
   public func startDeviceDiscovery(_ deviceDiscoveredCallback: @escaping (Swift.String, Swift.Int32) -> ())
   public func cancelDeviceDiscovery()
-  public func connect(_ deviceName: Swift.String, _ timeoutSeconds: Swift.UInt64, _ deviceConnectionCallback: @escaping (Swift.Bool) -> ())
+  public func connect(_ deviceName: Swift.String, _ timeoutSeconds: Swift.UInt32, _ deviceConnectionCallback: @escaping (Swift.Bool) -> ())
   public func connect(_ deviceName: Swift.String, _ deviceConnectionCallback: @escaping (Swift.Bool) -> ())
   public func disconnect()
   public func getSerialNumber() -> Swift.String

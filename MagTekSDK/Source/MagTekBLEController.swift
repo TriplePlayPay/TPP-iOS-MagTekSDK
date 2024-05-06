@@ -24,65 +24,98 @@ public enum MagTekTransactionStatus: UInt8 { // range all over the place, we hav
 
 class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
+    private let publicMethodTag = String(describing: MagTekBLEController.self)
+    private let mtscraMethodTag = "MTSCRA"
+    
     private var devices: [String: MagTekBluetoothInfo] = [:]
 
     private var bluetoothState: MTSCRABLEState?
     private let lib: MTSCRA = MTSCRA()
     
-    private var apiUrlEndpoint: String = "/api/emv"
-    private var scanning: Bool = false
+    private var apiUrlEndpoint = "/api/emv"
+    private var scanning = false
+    private var debug = false
+
     private var apiUrl: String
     private let apiKey: String
-    private var debug: Bool = false
     
-    // callback declarations
+    // Triple Play Pay API callbacks
     public var deviceDiscoveredCallback: ((String, Int32) -> ())?
     public var deviceConnectionCallback: ((Bool) -> ())?
     public var deviceTransactionCallback: ((String, MagTekTransactionEvent, MagTekTransactionStatus) -> ())?
     
+    // Controller state
     private var lastApprovalState: Bool = false
     private var lastTransactionMessage: String = "NO MESSAGE"
     private var lastTransactionStatus: MagTekTransactionStatus = .noStatus
     private var lastTransactionEvent: MagTekTransactionEvent = .noEvents
-    
     private var deviceSerialNumber: String = "00000000000000000000000000000000"
     private var deviceIsConnecting: Bool = false
     private var deviceIsConnected: Bool = false
     
+    /* Initialize:
+     * deviceType: Int
+     *  needs a device type (for future type-c / lightning cable implementations)
+     *  supported device types:
+     *   - MAGTEKTDYNAMO
+     *   x MAGTEKIDYNAMO (coming soon?)
+     * apiKey: String
+     *  needs an API key to communicate with Triple Play Pay
+     * apiUrl: String
+     *  needs to know which Triple Play Pay API to query
+     */
+    
     public init(_ deviceType: Int, apiKey: String, apiUrl: String) {
-        print("version - 0.0.26")
+        print("version - 0.0.28")
 
         self.apiKey = apiKey
         self.apiUrl = apiUrl
         
-        super.init()
+        super.init() // sets up the MTSCRA library
         self.lib.setDeviceType(UInt32(deviceType))
-        self.lib.setConnectionType(UInt(BLE_EMV))
-        self.lib.delegate = self
+        self.lib.setConnectionType(UInt(BLE_EMV)) // only bluetooth for now
+        self.lib.delegate = self // circular ref for mtscra
     }
+    
+    /* Private functions for simple processes
+     * - debugPrint (tag: String, message: String) -> prints a debug message to STDOUT. Takes a tag argument for better organization
+     * - emitDeviceIsConnected () -> should get called when the device is determined to be connected; Configures the device
+     * - emitDeviceDisconnected () -> should get called when the device has been disconnected
+     */
     
     private func debugPrint(_ tag: String, _ message: String) {
-        if debug {
-            print("\(tag): \(message)")
-        }
+        debug ? print("\(tag): \(message)") : ()
+    }
+        
+    private func emitDeviceIsConnected() {
+        lib.clearBuffers()
+        deviceSerialNumber = lib.getDeviceSerial()
+        lib.sendCommandSync("580101") // set MSR
+        lib.sendCommandSync("480101") // set BLE
+        deviceConnectionCallback?(true)
+        deviceIsConnecting = false
     }
     
-
+    private func emitDeviceDisconnected() {
+        deviceConnectionCallback?(false)
+        self.lib.closeDevice() // make sure we aren't connected after the fact
+    }
     
     /* Callback functions for MTSCRA. These are called when an event happens ON THE DEVICE
      *  - bleReaderStateUpdated (state: BLEState) -> `state` contains the phones internal BLE radio status
      *  - onDeviceList (instance: Any, connectionType: Int, deviceList: [Any]) -> 'deviceList' has a list of discovered devices
      *  - onDeviceConnectionDidChange(deviceType: Int, connected: Bool, instance: Any) -> `connected` tells us if the device is connected or not
-     *  - onTransactionStatus
+     *  - onTransactionStatus (data: Data) -> `data` is a byte buffer containing the current transaction status and event
+     *  - onDisplayRequestMethod (data: Data) -> `data` is a byte buffer that can be translated to a UTF-8 string. This is a message from the device to the cardholder
      */
     
     func bleReaderStateUpdated(_ state: MTSCRABLEState) {
-        debugPrint("MTSCRA callback", "bleReaderStateUpdated => \(state)")
+        debugPrint(mtscraMethodTag, "bleReaderStateUpdated => \(state)")
         self.bluetoothState = state
     }
     
     func onDeviceList(_ instance: Any!, connectionType: UInt, deviceList: [Any]!) {
-        debugPrint("MTSCRA callback", "onDeviceList => size: \(deviceList.count)")
+        debugPrint(mtscraMethodTag, "onDeviceList => size: \(deviceList.count)")
         for device in (deviceList as! [MTDeviceInfo])  {
             if !devices.keys.contains(device.name) {
                 devices[device.name] = MagTekBluetoothInfo(
@@ -96,7 +129,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     }
     
     func onDeviceConnectionDidChange(_ deviceType: UInt, connected: Bool, instance: Any!) {
-        debugPrint("MTSCRA callback", "onDeviceConnectionDidChange => \(connected)")
+        debugPrint(mtscraMethodTag, "onDeviceConnectionDidChange => \(connected)")
         if deviceIsConnecting { // only return the callback during the alloted "connecting" time window
             deviceIsConnected = connected
             if deviceIsConnected {
@@ -106,9 +139,9 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     }
     
     func onTransactionStatus(_ data: Data!) {
-        lastTransactionEvent = MagTekTransactionEvent(rawValue: data[0])!
-        lastTransactionStatus = MagTekTransactionStatus(rawValue: data[2])!
-        debugPrint("MTSCRA callback", "onTransactionStatus => Event: \(lastTransactionEvent), Status: \(lastTransactionStatus)")
+        lastTransactionEvent = MagTekTransactionEvent(rawValue: data[0]) ?? .noEvents // fail quietly
+        lastTransactionStatus = MagTekTransactionStatus(rawValue: data[2]) ?? .noStatus
+        debugPrint(mtscraMethodTag, "onTransactionStatus => Event: \(lastTransactionEvent), Status: \(lastTransactionStatus)")
         DispatchQueue.main.async {
             self.deviceTransactionCallback?( // we need self inside of an async context
                 self.lastTransactionMessage,
@@ -119,7 +152,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     
     func onDisplayMessageRequest(_ data: Data!) {
         lastTransactionMessage = String(data: data, encoding: .utf8) ?? "COULD NOT PARSE DISPLAY MESSAGE"
-        debugPrint("MTSCRA callback", "onDisplayMessageRequest => \(lastTransactionMessage)")
+        debugPrint(mtscraMethodTag, "onDisplayMessageRequest => \(lastTransactionMessage)")
         DispatchQueue.main.async {
             self.deviceTransactionCallback?( // we need self inside of an async context
                 self.lastTransactionMessage,
@@ -195,8 +228,26 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
      *  - cancelTransaction () -> cancels a running transaction
      */
     
+    public func isConnected() -> Bool {
+        let connected = lib.isDeviceOpened() && lib.isDeviceConnected()
+        debug ? print("isConnected: \(connected)") : ()
+        return connected
+    }
+    
+    public func getSerialNumber() -> String {
+        let serialNumber = isConnected() ? lib.getDeviceSerial() : "disconnected"
+        debug ? print("getSerialNumber: called") : ()
+        return serialNumber ?? "Error getting serial number"
+    }
+    
+    public func setDebug(_ debug: Bool) {
+        print("debug \(debug ? "enabled" : "disabled")")
+        MTSCRA.enableDebugPrint(debug)
+        self.debug = debug
+    }
+    
     public func startDeviceDiscovery() {
-        debug ? print("startDeviceDiscovery: called") : ()
+        debugPrint(publicMethodTag, "startDeviceDiscovery called")
         // TODO: idea => if we try connecting to a previously discovered device and it is not successful we will exclude that entry from the list
         // fire the callback for each of the already discovered devices.
         devices.forEach({ deviceName, device in deviceDiscoveredCallback?(deviceName, device.rssi) })
@@ -208,32 +259,19 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     }
     
     public func cancelDeviceDiscovery() {
-        debug ? print("cancelDeviceDiscovery: called") : ()
+        debugPrint(publicMethodTag, "cancelDeviceDiscovery called")
         lib.stopScanningForPeripherals()
     }
     
-    private func emitDeviceIsConnected() {
-        lib.clearBuffers()
-        deviceSerialNumber = lib.getDeviceSerial()
-        lib.sendCommandSync("580101") // set MSR
-        lib.sendCommandSync("480101") // set BLE
-        deviceConnectionCallback?(true)
-        deviceIsConnecting = false
-    }
-    
-    private func emitDeviceDisconnected() {
-        deviceConnectionCallback?(false)
-        self.lib.closeDevice() // make sure we aren't connected after the fact
-    }
-    
     public func connect(_ deviceName: String, _ timeout: DispatchTime) {
+        debugPrint(publicMethodTag, "connect called")
         if let device = self.devices[deviceName] {
+            debugPrint(publicMethodTag, "connecting to device \(deviceName)")
             deviceIsConnecting = true
             lib.setAddress(device.address)
             lib.openDevice()
-            
             DispatchQueue.main.asyncAfter(deadline: timeout, execute: {
-                self.debugPrint("Connect Timeout", "called")
+                self.debugPrint("CONNECT TIMEOUT", "called after \(timeout) second(s)")
                 self.deviceIsConnected ? self.emitDeviceIsConnected() : self.emitDeviceDisconnected() // ensure we emit SOMETHING
                 self.deviceIsConnecting = false // set the device to not connecting so we dont report a boolean after the timeout
             })
@@ -243,15 +281,15 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     }
     
     public func disconnect() {
-        debug ? print("disconnect: called") : ()
+        debugPrint(publicMethodTag, "disconnect called")
         DispatchQueue.main.async {
-            self.lib.clearBuffers()
+            self.lib.clearBuffers() // clear buffers before leaving
             self.lib.closeDeviceSync()
         }
     }
     
     public func startTransaction(_ amount: String) {
-        debug ? print("startTransaction: called") : ()
+        debugPrint(publicMethodTag, "startTranas")
         
         lib.clearBuffers() // clear out buffers before the transaction begins
         
@@ -273,31 +311,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
     }
     
     public func cancelTransaction() {
-        debug ? print("cancelTransaction: called") : ()
+        debugPrint(publicMethodTag, "cancelTransaction: called")
         lib.cancelTransaction()
-    }
-    
-    public func isConnected() -> Bool {
-        let connected = lib.isDeviceOpened() && lib.isDeviceConnected()
-        debug ? print("isConnected: \(connected)") : ()
-        return connected
-    }
-    
-    public func getSerialNumber() -> String {
-        let serialNumber = isConnected() ? lib.getDeviceSerial() : "disconnected"
-        debug ? print("getSerialNumber: called") : ()
-        return serialNumber ?? "Error getting serial number"
-    }
-    
-    public func setDebug(_ debug: Bool) {
-        print("debug \(debug ? "enabled" : "disabled")")
-        MTSCRA.enableDebugPrint(debug)
-        self.debug = debug
-    }
-    
-    private enum MagTekCommand: String {
-        case setMSR = "580101"
-        case setBLE = "480101"
-        case setDateTimePrefix = "030C001800"
     }
 }
