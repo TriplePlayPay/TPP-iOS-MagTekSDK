@@ -209,6 +209,7 @@ class MagTekBLEController: NSObject, MTSCRAEventDelegate {
                     if json["status"] as! Bool {
                         let message = json["message"] as! [String: Any]
                         let arpc = message["arpc"] as! String
+                        self.lastApprovalState = message["approved"] as! Bool
                         
                         var bytes = self.hexStringBytes(arpc)
                         
