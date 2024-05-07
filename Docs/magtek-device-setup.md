@@ -33,7 +33,7 @@ You can see a list of the possible events and statuses (here)[http://example.com
 
 When going through a transaction, these messages will be displayed to the card holder:
 - 1. Transaction is started: `PRESENT CARD`
-- 2. 
+- 2. The card reader presents their card 
   - a. Card holder inserts card: `PLEASE WAIT`
   - b. Card holder taps card: `CARD READ OK, PLEASE REMOVE CARD`
 - 3. If there was an error processing the card: `PROCESSING ERROR`
