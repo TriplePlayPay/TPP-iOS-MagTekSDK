@@ -5,7 +5,7 @@ To begin, power up the device by plugging it in. Each tDyanmo should come with a
 
 You may power the device OFF by holding the button on the side until you hear the DOUBLE BEEP. The button is on the right side of the device, under the magstripe reader. Pressing the same button will power the device back ON. 
 ### 2. Bluetooth
-Your POS application will need to support bluetooth. The requirements for this depends on the mobile platform. [iOS](http://example.com) - [Android](http://example.com)
+Your POS application will need to support bluetooth. The requirements for this depends on the mobile platform. [Android](https://developer.android.com/develop/connectivity/bluetooth/bt-permissions), [iOS](https://developer.apple.com/documentation/bundleresources/information_property_list/nsbluetoothalwaysusagedescription)
 
 The tDynamo works with a bluetooth varient called BLE or Bluetooth Low Energy. You can NOT use the host device's Bluetooth menu to connect to the card reader. Instead, the process for this will be handled in your POS application.
 
@@ -29,7 +29,7 @@ Supply the string to the `startTransaction` method. During the process of the tr
 - The last reported transaction event that happened
 - The last reported transaction status of the device
 
-You can see a list of the possible events and statuses (here)[http://example.com] 
+You can see a list of the possible events and statuses [here](../MagTekCardReader.md)
 
 When going through a transaction, these messages will be displayed to the card holder:
 - 1. Transaction is started: `PRESENT CARD`
