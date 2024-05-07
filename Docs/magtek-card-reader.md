@@ -44,7 +44,11 @@ cardReader.startTransaction("1.01", { message, event, status in
     if event == .complete {
         // update UI
     }
-    
+
+    if status == .onlineProcessing {
+        // show ProgressView()
+    }
+
     // set some UI component to the current message
     transactionMessage = message
 })
@@ -90,18 +94,18 @@ cardReader.cancelTransaction()
 - approved: 19
 - declined: 20
 - canceledByMSR: 21
-- emvConditionsNotSatisfied: 22,
-- emvCardBlocked: 23,
-- contactSelectionFailed: 24,
-- emvCardNotAccepted: 25,
-- emptyCandidateList: 26,
-- applicationBlocked: 27,
-- hostCanceled: 145,
-- applicationSelectionFailed: 40,
-- removedCard: 41,
-- collisionDetected: 42,
-- referToHandheldDevice: 43,
-- contactlessComplete: 44,
-- requestSwitchToMSR: 45,
-- wrongCardType: 46,
+- emvConditionsNotSatisfied: 22
+- emvCardBlocked: 23
+- contactSelectionFailed: 24
+- emvCardNotAccepted: 25
+- emptyCandidateList: 26
+- applicationBlocked: 27
+- hostCanceled: 145
+- applicationSelectionFailed: 40
+- removedCard: 41
+- collisionDetected: 42
+- referToHandheldDevice: 43
+- contactlessComplete: 44
+- requestSwitchToMSR: 45
+- wrongCardType: 46
 - noInterchangeProfile: 47
