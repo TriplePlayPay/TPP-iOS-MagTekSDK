@@ -1,4 +1,4 @@
-# MagTek Device - Setup
+# MagTek - Setup
 ## tDynamo
 ### 1. Powering the device
 To begin, power up the device by plugging it in. Each tDyanmo should come with a type-C USB cable included. Your device may come with an optional stand as well. Make sure to plug the cable into the SIDE of the device, NOT the base of the stand. The device will stay powered with a small battery, however, it will not stay charged for very long during regular use. When powered on, the device will make a BEEP, and a power indicator light will glow. The light can be green, yellow, or red depending on the battery status.
