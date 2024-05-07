@@ -29,7 +29,7 @@ Supply the string to the `startTransaction` method. During the process of the tr
 - The last reported transaction event that happened
 - The last reported transaction status of the device
 
-You can see a list of the possible events and statuses [here](./MagTekCardReader.md)
+You can see a list of the possible events and statuses [here](./magtek-card-reader.md)
 
 When going through a transaction, these messages will be displayed to the card holder:
 - 1. Transaction is started: `PRESENT CARD`
