@@ -20,7 +20,7 @@ In order to connect to a device in your application:
 
 Once a card reader is paired to the host device, you will see it show up in the Bluetooth menu. You can unpair devices from here.
 ### 3. Transactions
-Currently SALE transactions are supported through our SDKs. To begin a SALE transaction, you need to supply a string representing a dollar value. some examples: `12.03`, `1.01`, `1.1`, `04.30`, '5' are all valid. 
+Currently SALE transactions are supported through our SDKs. To begin a SALE transaction, you need to supply a string representing a dollar value. some examples: `12.03`, `1.01`, `1.1`, `04.30`, `5` are all valid. 
 
 Strings like `$1.01` are not allowed. do NOT place the dollar sign or any other currency symbol in the string. 
 
