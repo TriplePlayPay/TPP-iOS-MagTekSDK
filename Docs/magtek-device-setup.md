@@ -32,10 +32,10 @@ Supply the string to the `startTransaction` method. During the process of the tr
 You can see a list of the possible events and statuses (here)[http://example.com] 
 
 When going through a transaction, these messages will be displayed to the card holder:
-1. Transaction is started: `PRESENT CARD`
-2. 
-  a. Card holder inserts card: `PLEASE WAIT`
-  b. Card holder taps card: `CARD READ OK, PLEASE REMOVE CARD`
-3. If there was an error processing the card: `PROCESSING ERROR`
-4. Transaction was approved: `APPROVED`
-5. Transaction was declined or a processing error: `DECLINED`
+- 1. Transaction is started: `PRESENT CARD`
+- 2. 
+  - a. Card holder inserts card: `PLEASE WAIT`
+  - b. Card holder taps card: `CARD READ OK, PLEASE REMOVE CARD`
+- 3. If there was an error processing the card: `PROCESSING ERROR`
+- 4. Transaction was approved: `APPROVED`
+- 5. Transaction was declined or a processing error: `DECLINED`
