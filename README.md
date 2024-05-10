@@ -26,4 +26,4 @@ sh ./build-xcframework.sh
 After that, you can look under the newly created `Build` folder to grab the xcframework.
 
 ## Documentation
-Go [here](Docs/MagTekCardReader.md)
+Go [here](Docs/magtek-card-reader.md)
